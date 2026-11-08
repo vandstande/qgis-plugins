@@ -1,0 +1,16 @@
+[general]
+name=HECRAS River
+qgisMinimumVersion=3.0
+description=Danner Banklines, Cross section lines, profilpunkter og kotepunkter til brug i HEC-RAS, ud fra en Rivercenter line.
+version=1.0
+author=HECRAS River
+email=noreply@example.com
+
+about=Samlet plugin til HEC-RAS-forberedelse i QGIS. Del 1 danner Banklines og Cross section lines ud fra en Rivercenter line. Del 2 danner profilpunkter og midtpunkter (kotepunkter) ud fra Rivercenter line og Cross section lines (med Riverstation fra HEC-RAS).
+
+tracker=
+repository=
+category=Vector
+icon=icon.png
+experimental=False
+deprecated=False

@@ -32,6 +32,10 @@ homepage = "https://www.vandstande.dk/timflow"
 navn     = "Anlægsværktøjer"
 homepage = "https://www.vandstande.dk/anlaeg"
 
+[grupper.hecras]
+navn     = "HEC-RAS-værktøjer"
+homepage = "https://www.vandstande.dk/hecras"
+
 # Plugin-mappe (under plugins/)  =  gruppe
 # Mappenavnet skal være det samme som pluginets Python-mappenavn.
 [plugins]
@@ -42,3 +46,6 @@ import_aem_elementer = "timflow"
 GravSkrab = "anlaeg"
 grav_groefter = "anlaeg"
 fyld_groefter = "anlaeg"
+hecras_river = "hecras"
+opmaaling_hecras = "hecras"
+opfyld_terran_hecras = "hecras"
