@@ -1,0 +1,47 @@
+# =====================================================================
+#  Fælles konfiguration for alle QGIS-plugins i dette repository
+# =====================================================================
+#  Det der står her, styres CENTRALT og skrives automatisk ind i hvert
+#  plugins metadata.txt ved build (og med `python tools/build.py sync`).
+#
+#  Alt andet (name, version, description, about, changelog, icon, tags,
+#  experimental ...) rettes direkte i det enkelte plugins metadata.txt.
+# =====================================================================
+
+[repo]
+github_bruger = "DIT-GITHUB-BRUGERNAVN"   # fx "janp1908"
+repo_navn     = "qgis-plugins"
+# Valgfrit: eget domæne til GitHub Pages, fx "plugins.vandstande.dk".
+# Lad stå tom for at bruge https://<bruger>.github.io/<repo>/
+eget_domaene  = ""
+titel         = "Vandstande.dk – QGIS plugins"
+
+# Felter der overskrives i ALLE plugins' metadata.txt
+[faelles]
+author             = "DIT NAVN"
+email              = "DIN-EMAIL"
+qgisMinimumVersion = "3.34"
+qgisMaximumVersion = "3.99"
+
+# Grupper = sammenhængen til hjemmesiderne.
+# Hvert plugins "homepage" sættes til gruppens side.
+[grupper.timflow]
+navn     = "TimFlow og HEC-RAS-værktøjer"
+homepage = "https://www.vandstande.dk/timflow"
+
+[grupper.anlaeg]
+navn     = "Anlægsværktøjer"
+homepage = "https://www.vandstande.dk/anlaeg"
+
+# Plugin-mappe (under plugins/)  =  gruppe
+# Mappenavnet skal være det samme som pluginets Python-mappenavn.
+[plugins]
+# timflow              = "timflow"
+# indlaes_modelgrid    = "timflow"
+# hecras_til_timflow   = "timflow"
+# lav_hecras_river     = "timflow"
+# lav_hecras_profilpkt = "timflow"
+# import_aem_elementer = "timflow"
+# gravskrab            = "anlaeg"
+# gravgroefter         = "anlaeg"
+# fyldgroefter         = "anlaeg"
