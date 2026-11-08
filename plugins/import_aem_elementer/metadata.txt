@@ -1,0 +1,19 @@
+[general]
+name=Import AEM elementer
+qgisMinimumVersion=3.0
+description=Importer AEM elementer fra en .bbl fil til punktlag i en valgt geopackage
+version=1.0
+author=Bruger
+email=
+
+about=Pluginet lader dig vælge en .bbl fil samt en geopackage (via et valgt lag i lagpanelet). Filen læses, og hvert "Head <NAVN> ... &" element bliver oprettet som et selvstændigt punktlag i geopackagen, med koordinaterne som geometri og Z-værdien gemt i feltet "kote" (2 decimaler). De oprettede lag får samme georeference (CRS) som det aktuelle QGIS-projekt og tilføjes automatisk til projektet.
+
+tracker=
+repository=
+category=Vector
+icon=icon.png
+
+experimental=False
+deprecated=False
+
+hasProcessingProvider=no

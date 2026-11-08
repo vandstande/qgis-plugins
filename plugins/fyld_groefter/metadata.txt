@@ -1,0 +1,16 @@
+[general]
+name=Fyld grøfter
+qgisMinimumVersion=3.16
+qgisMaximumVersion=4.99
+description=Beregner fyldvolumen for grøfter ud fra et streglag og en terrænmodel
+about=Lægger tværsnit vinkelret på grøftestregen, finder grøftens bund og kanter i terrænmodellen og beregner arealet der skal fyldes. Volumen pr. grøft skrives i et felt i streglaget. Stregen behøver ikke ligge midt i grøften. Kan oprette kontrollag med tværsnit og grøfteomrids.
+version=1.2
+changelog=1.2: Tilpasset QGIS 4 / Qt6 (QAction fra QtGui, nye enum-navne). 1.1: Ligger i menuen Anlægsberegning
+author=janp1908
+email=janp1908@gmail.com
+category=Raster
+tags=grøft,fyld,volumen,terræn,DEM,jordberegning
+experimental=False
+deprecated=False
+icon=icon.png
+supportsQt6=True

@@ -3,9 +3,9 @@
 Monorepo med QGIS-plugins (QGIS 3.34, Windows-brugere, dansk UI). Publiceres via
 GitHub Pages som et custom plugin-repository (`plugins.xml`).
 
-- Fælles metadata (author, email, qgisMin/MaxVersion) og homepage/repository/tracker styres
+- Fælles metadata (author, email) og homepage/repository/tracker styres
   i `plugins.toml` og skrives ind af `tools/build.py`. Ret dem aldrig i én metadata.txt.
-- Alt pluginspecifikt (name, description, about, changelog, icon, tags) står i
+- Alt pluginspecifikt (name, description, about, changelog, icon, tags, qgisMin/MaxVersion, supportsQt6) står i
   `plugins/<mappe>/metadata.txt`.
 - Hver ændring i et plugin SKAL have ny version: `python tools/build.py bump <mappe> -m "..."`.
   CI fejler ellers.
@@ -14,3 +14,5 @@ GitHub Pages som et custom plugin-repository (`plugins.xml`).
 - Plugins der hører til TimFlow-menuen tilføjer sig til menuen "TimFlow" hvis den findes,
   ellers opretter de den.
 - Kun Python-standardbibliotek i tools/. Ingen binære filer i plugins.
+- QGIS 4/Qt6: GravSkrab, grav_groefter og fyld_groefter understøtter det (compat-lag, qgisMaximumVersion=4.99,
+  supportsQt6=True). TimFlow-pluginsene er kun Qt5 (qgisMaximumVersion=3.99) indtil de porteres.

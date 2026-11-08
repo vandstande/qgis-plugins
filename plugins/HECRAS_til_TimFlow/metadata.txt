@@ -1,0 +1,15 @@
+[general]
+name=HECRAS til TimFlow
+qgisMinimumVersion=3.16
+description=Genererer punktlag med koter fra en HEC-RAS resultatfil langs HEC-RAS vandlobslinjer, klar til brug i TimFlow.
+version=1.0
+author=
+email=
+about=Plugin der opretter punktlag i en TimFlow-geopackage ud fra en HEC-RAS resultat-raster og et HEC-RAS vandlobslag. Punkterne placeres langs hver vandlobslinje med en brugerdefineret afstand, og feltet "kote" udfyldes med den samplede vaerdi fra HEC-RAS resultatfilen (-999 hvis der ikke findes en vaerdi).
+tracker=
+repository=
+category=Vector
+icon=icon.png
+experimental=False
+deprecated=False
+server=False

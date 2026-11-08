@@ -5,11 +5,12 @@
 #  plugins metadata.txt ved build (og med `python tools/build.py sync`).
 #
 #  Alt andet (name, version, description, about, changelog, icon, tags,
-#  experimental ...) rettes direkte i det enkelte plugins metadata.txt.
+#  qgisMinimumVersion/qgisMaximumVersion, supportsQt6, experimental ...)
+#  rettes direkte i det enkelte plugins metadata.txt.
 # =====================================================================
 
 [repo]
-github_bruger = "DIT-GITHUB-BRUGERNAVN"   # fx "janp1908"
+github_bruger = "vandstande"
 repo_navn     = "qgis-plugins"
 # Valgfrit: eget domæne til GitHub Pages, fx "plugins.vandstande.dk".
 # Lad stå tom for at bruge https://<bruger>.github.io/<repo>/
@@ -18,10 +19,8 @@ titel         = "Vandstande.dk – QGIS plugins"
 
 # Felter der overskrives i ALLE plugins' metadata.txt
 [faelles]
-author             = "DIT NAVN"
-email              = "DIN-EMAIL"
-qgisMinimumVersion = "3.34"
-qgisMaximumVersion = "3.99"
+author             = "Jan Pedersen"
+email              = "jan@vandstande.dk"
 
 # Grupper = sammenhængen til hjemmesiderne.
 # Hvert plugins "homepage" sættes til gruppens side.
@@ -36,12 +35,10 @@ homepage = "https://www.vandstande.dk/anlaeg"
 # Plugin-mappe (under plugins/)  =  gruppe
 # Mappenavnet skal være det samme som pluginets Python-mappenavn.
 [plugins]
-# timflow              = "timflow"
-# indlaes_modelgrid    = "timflow"
-# hecras_til_timflow   = "timflow"
-# lav_hecras_river     = "timflow"
-# lav_hecras_profilpkt = "timflow"
-# import_aem_elementer = "timflow"
-# gravskrab            = "anlaeg"
-# gravgroefter         = "anlaeg"
-# fyldgroefter         = "anlaeg"
+TimFlow = "timflow"
+indlaes_modelgrid = "timflow"
+HECRAS_til_TimFlow = "timflow"
+import_aem_elementer = "timflow"
+GravSkrab = "anlaeg"
+grav_groefter = "anlaeg"
+fyld_groefter = "anlaeg"
