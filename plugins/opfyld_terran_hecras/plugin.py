@@ -34,7 +34,7 @@ class OpfyldTerranHecras:
     # ------------------------------------------------------------ QGIS hooks
     def initGui(self):
         icon = QIcon(os.path.join(self.plugin_dir, "icon.png"))
-        self.action = QAction(icon, "Opfyld terran HECRAS", self.iface.mainWindow())
+        self.action = QAction(icon, "Opfyld terræn HECRAS", self.iface.mainWindow())
         self.action.setObjectName("OpfyldTerranHecrasAction")
         self.action.triggered.connect(self.run)
 

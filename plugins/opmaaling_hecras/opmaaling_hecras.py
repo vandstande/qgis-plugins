@@ -14,8 +14,12 @@ import csv
 
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtGui import QIcon, QColor
+try:  # Qt6 / QGIS 4: QAction ligger i QtGui
+    from qgis.PyQt.QtGui import QAction
+except ImportError:  # Qt5 / QGIS 3
+    from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtWidgets import (
-    QAction, QMenu, QDialog, QVBoxLayout, QFormLayout, QGroupBox, QLineEdit,
+    QMenu, QDialog, QVBoxLayout, QFormLayout, QGroupBox, QLineEdit,
     QHBoxLayout, QPushButton, QTabWidget, QWidget, QMessageBox, QFileDialog, QApplication, QLabel,
 )
 from qgis.core import (

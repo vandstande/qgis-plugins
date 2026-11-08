@@ -4,7 +4,7 @@ qgisMinimumVersion=3.22
 qgisMaximumVersion=4.99
 description=Danner tværprofiler, bank lines og alignede opmålingspunkter (Hecrasopmaaling) til HEC-RAS ud fra en River centerlinje og opmålingspunkter.
 about=Vælg et linjelag med River centerlinje (felterne River og Reach) og et punktlag med opmålingspunkter (feltet KODE). Tværprofiler dannes fra hvert punkt med 12PROFILSTARTV til næste punkt i tabellen med 14PROFILSLUT. Bank lines følger centerlinjen og går gennem start- (venstre) og slutpunkterne (højre). Hecrasopmaaling er opmålingspunkterne projiceret ind på nærmeste tværprofil med Station (afstand fra profilets start). Del 2 sætter RS i Hecrasopmaaling ud fra tværprofilerne eksporteret fra HEC-RAS.
-version=1.4.1
+version=1.4.2
 author=Jan Pedersen
 email=jan@vandstande.dk
 category=Vector
@@ -13,7 +13,8 @@ experimental=False
 deprecated=False
 tags=hec-ras,hecras,cross section,bank lines,opmåling,vandløb
 supportsQt6=True
-changelog=1.4.1 - Udgives via vandstande.dk plugin-repository
+changelog=1.4.2 - Rettet: kunne ikke indlæses i QGIS 4 (QAction-import)
+    1.4.1 - Udgives via vandstande.dk plugin-repository
     1.4.0 - Seneste version før repository
 homepage=https://www.vandstande.dk/hecras
 repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/opmaaling_hecras

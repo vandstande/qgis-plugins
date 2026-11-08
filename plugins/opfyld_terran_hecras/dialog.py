@@ -13,7 +13,7 @@ from qgis.gui import QgsFileWidget, QgsMapLayerComboBox
 from .terrain import TerrainError, layer_file_path, luk_terraen
 from .compat import LAG_LINJE, LAG_RASTER, filwidget_tilstand
 
-TITLE = "Opfyld terran HECRAS"
+TITLE = "Opfyld terræn HECRAS"
 SETTINGS_KEY = "OpfyldTerranHecras/"
 
 INTRO = (
