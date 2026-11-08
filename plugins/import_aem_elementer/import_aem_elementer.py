@@ -20,7 +20,7 @@ import os
 
 from qgis.PyQt.QtCore import QVariant, Qt
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QMessageBox
+from qgis.PyQt.QtWidgets import QMessageBox
 from qgis.core import (
     Qgis,
     QgsCoordinateReferenceSystem,
@@ -35,6 +35,7 @@ from qgis.core import (
 )
 
 from .import_aem_elementer_dialog import ImportAemElementerDialog
+from .compat import NIVEAU_SUCCES, QAction, VFW_NO_ERROR, VFW_OVERWRITE_FILE, VFW_OVERWRITE_LAYER, felttype
 
 
 class ImportAemElementer:
@@ -66,7 +67,7 @@ class ImportAemElementer:
     # ------------------------------------------------------------------
     def run(self):
         dlg = ImportAemElementerDialog(self.iface.mainWindow())
-        if not dlg.exec_():
+        if not dlg.exec():
             return
 
         bbl_path = dlg.get_bbl_path()
@@ -141,7 +142,7 @@ class ImportAemElementer:
             QMessageBox.warning(self.iface.mainWindow(), "Import AEM elementer", summary)
         else:
             self.iface.messageBar().pushMessage(
-                "Import AEM elementer", summary, level=Qgis.Success, duration=6
+                "Import AEM elementer", summary, level=NIVEAU_SUCCES, duration=6
             )
 
     # ------------------------------------------------------------------
@@ -231,7 +232,7 @@ class ImportAemElementer:
         )
 
         fields = QgsFields()
-        fields.append(QgsField("kote", QVariant.Double, "double", 10, 2))
+        fields.append(QgsField("kote", felttype("Double"), "double", 10, 2))
         mem_layer.dataProvider().addAttributes(fields)
         mem_layer.updateFields()
 
@@ -249,9 +250,9 @@ class ImportAemElementer:
         options.driverName = "GPKG"
         options.layerName = layer_name
         if os.path.exists(gpkg_path):
-            options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
+            options.actionOnExistingFile = VFW_OVERWRITE_LAYER
         else:
-            options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteFile
+            options.actionOnExistingFile = VFW_OVERWRITE_FILE
 
         write_result = QgsVectorFileWriter.writeAsVectorFormatV3(
             mem_layer,
@@ -261,9 +262,9 @@ class ImportAemElementer:
         )
 
         # writeAsVectorFormatV3 returnerer en tuple hvor første element er
-        # fejlkoden (QgsVectorFileWriter.NoError ved success)
+        # fejlkoden (VFW_NO_ERROR ved success)
         error_code = write_result[0]
         error_message = write_result[1] if len(write_result) > 1 else ""
 
-        if error_code != QgsVectorFileWriter.NoError:
+        if error_code != VFW_NO_ERROR:
             raise RuntimeError(error_message or "Ukendt fejl ved skrivning til geopackage")

@@ -12,9 +12,10 @@ ikke i forvejen, oprettes den.
 import os
 
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QMenu
+from qgis.PyQt.QtWidgets import QMenu
 
 from .hecras_river_dialog import HecrasRiverDialog
+from .compat import QAction
 
 MENU_TITLE = "HECRAS"
 MENU_OBJECT_NAME = "HECRASMenu"

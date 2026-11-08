@@ -1,7 +1,8 @@
 import os
 
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QMenu
+from qgis.PyQt.QtWidgets import QMenu
+from .compat import QAction
 
 MENU_TITLE = "HECRAS"
 

@@ -33,6 +33,7 @@ from .geometry_utils import (
     first_matching_field,
     write_line_layer,
 )
+from .compat import felttype
 
 RIVER_FIELD_CANDIDATES = ["River", "RIVER", "river"]
 REACH_FIELD_CANDIDATES = ["Reach", "REACH", "reach"]
@@ -62,14 +63,14 @@ def build_banklines_and_crosssections(centerline_layer, bredde, afstand):
     reach_field = first_matching_field(src_fields, REACH_FIELD_CANDIDATES)
 
     bankline_fields = QgsFields()
-    bankline_fields.append(QgsField("River", QVariant.String))
-    bankline_fields.append(QgsField("Reach", QVariant.String))
-    bankline_fields.append(QgsField("Side", QVariant.String))
+    bankline_fields.append(QgsField("River", felttype("String")))
+    bankline_fields.append(QgsField("Reach", felttype("String")))
+    bankline_fields.append(QgsField("Side", felttype("String")))
 
     xs_fields = QgsFields()
-    xs_fields.append(QgsField("River", QVariant.String))
-    xs_fields.append(QgsField("Reach", QVariant.String))
-    xs_fields.append(QgsField("Station", QVariant.Double))
+    xs_fields.append(QgsField("River", felttype("String")))
+    xs_fields.append(QgsField("Reach", felttype("String")))
+    xs_fields.append(QgsField("Station", felttype("Double")))
 
     bankline_features = []
     xs_features = []

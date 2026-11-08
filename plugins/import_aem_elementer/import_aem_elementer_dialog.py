@@ -16,6 +16,7 @@ from qgis.PyQt.QtWidgets import (
 )
 from qgis.core import QgsMapLayerProxyModel
 from qgis.gui import QgsMapLayerComboBox
+from .compat import LAG_VEKTOR
 
 
 class ImportAemElementerDialog(QDialog):
@@ -42,7 +43,7 @@ class ImportAemElementerDialog(QDialog):
         gpkg_layout = QHBoxLayout()
         gpkg_layout.addWidget(QLabel("Geopackage (vælg et lag fra den):"))
         self.layer_combo = QgsMapLayerComboBox()
-        self.layer_combo.setFilters(QgsMapLayerProxyModel.VectorLayer)
+        self.layer_combo.setFilters(LAG_VEKTOR)
         gpkg_layout.addWidget(self.layer_combo)
         layout.addLayout(gpkg_layout)
 

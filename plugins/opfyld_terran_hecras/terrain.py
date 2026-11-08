@@ -13,6 +13,7 @@ from qgis.core import (
     QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsGeometry, QgsPointXY,
     QgsProject, QgsProviderRegistry, QgsRaster, QgsRasterLayer, QgsWkbTypes,
 )
+from .compat import CRS_WKT_GDAL, GEOM_POLYGON, IDENTIFY_VALUE
 
 BAND = 1
 
@@ -72,7 +73,7 @@ class _Sampler:
                 return math.nan
             v = float(v)
         else:
-            r = self.prov.identify(pt, QgsRaster.IdentifyFormatValue)
+            r = self.prov.identify(pt, IDENTIFY_VALUE)
             if not r.isValid():
                 return math.nan
             v = r.results().get(BAND)
@@ -173,7 +174,7 @@ def _crs_wkt(crs):
     if crs is None or not crs.isValid():
         return ""
     try:
-        return crs.toWkt(QgsCoordinateReferenceSystem.WKT_PREFERRED_GDAL)
+        return crs.toWkt(CRS_WKT_GDAL)
     except Exception:
         return crs.toWkt()
 
@@ -216,8 +217,8 @@ def luk_terraen(bank_layer, out_path, dem_layer=None, dem_path="",
     poly = QgsGeometry.fromPolygonXY([ring])
     if not poly.isGeosValid():
         poly = poly.makeValid()
-    if poly.type() != QgsWkbTypes.PolygonGeometry:
-        conv = poly.convertToType(QgsWkbTypes.PolygonGeometry, True)
+    if poly.type() != GEOM_POLYGON:
+        conv = poly.convertToType(GEOM_POLYGON, True)
         if conv is not None:
             poly = conv
     if poly.isEmpty() or poly.area() <= 0:

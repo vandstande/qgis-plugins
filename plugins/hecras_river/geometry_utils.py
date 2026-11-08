@@ -22,6 +22,7 @@ from qgis.core import (
     QgsProject,
 )
 from qgis.PyQt.QtCore import QVariant
+from .compat import VFW_NO_ERROR, WKB_LINESTRING, WKB_POINT
 
 
 # ---------------------------------------------------------------------------
@@ -111,7 +112,7 @@ def first_matching_field(fields, candidates):
 # Skrivning af shapefiler
 # ---------------------------------------------------------------------------
 
-def write_line_layer(path, crs, fields, features, geom_type=QgsWkbTypes.LineString):
+def write_line_layer(path, crs, fields, features, geom_type=WKB_LINESTRING):
     """Skriver en liste af QgsFeature (med QgsGeometry af linjetype) til en
     shapefil."""
     save_options = QgsVectorFileWriter.SaveVectorOptions()
@@ -122,7 +123,7 @@ def write_line_layer(path, crs, fields, features, geom_type=QgsWkbTypes.LineStri
         path, fields, geom_type, crs,
         QgsCoordinateTransformContext(), save_options
     )
-    if writer.hasError() != QgsVectorFileWriter.NoError:
+    if writer.hasError() != VFW_NO_ERROR:
         raise RuntimeError(f"Kunne ikke oprette lag: {path} ({writer.errorMessage()})")
 
     for feat in features:
@@ -132,4 +133,4 @@ def write_line_layer(path, crs, fields, features, geom_type=QgsWkbTypes.LineStri
 
 
 def write_point_layer(path, crs, fields, features):
-    return write_line_layer(path, crs, fields, features, geom_type=QgsWkbTypes.Point)
+    return write_line_layer(path, crs, fields, features, geom_type=WKB_POINT)

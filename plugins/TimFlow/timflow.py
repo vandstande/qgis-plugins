@@ -6,10 +6,11 @@ begge peger på det samme plugin-vindue (TimFlowDialog).
 """
 import os
 
-from qgis.PyQt.QtWidgets import QAction, QMenu
+from qgis.PyQt.QtWidgets import QMenu
 from qgis.PyQt.QtGui import QIcon
 
 from .timflow_dialog import TimFlowDialog
+from .compat import QAction
 
 
 class TimFlowPlugin:
@@ -88,7 +89,7 @@ class TimFlowPlugin:
             self.dlg = None
 
     def run(self):
-        # Dialogen skal forblive åben (non-modal), derfor .show() og ikke .exec_()
+        # Dialogen skal forblive åben (non-modal), derfor .show() og ikke .exec()
         if self.dlg is None:
             self.dlg = TimFlowDialog(self.iface)
             self.dlg.destroyed.connect(self._on_dialog_closed)

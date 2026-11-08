@@ -1,13 +1,20 @@
 [general]
-name=Opfyld terran HECRAS
+name=Opfyld terræn HECRAS
 qgisMinimumVersion=3.16
 description=Udjævner (lukker) terrænet mellem to HEC-RAS banklines og gemmer resultatet som GeoTIFF.
 about=Plugin'et interpolerer terrænet mellem to banklines ud fra terrænkoterne langs bredderne. Resultatet har samme cellestørrelse, gitterplacering og koordinatsystem som højdemodellen og gemmes som GeoTIFF for arealet mellem de 2 banklines.
-version=1.4
-author=HECRAS
-email=hecras@example.com
+version=1.5.0
+author=Jan Pedersen
+email=jan@vandstande.dk
 category=Raster
 icon=icon.png
 experimental=False
 deprecated=False
 tags=hecras,terrain,dem,raster,bankline
+qgisMaximumVersion=4.99
+supportsQt6=True
+changelog=1.5.0 - Virker nu også i QGIS 4 (Qt6). Udgives via vandstande.dk plugin-repository
+    1.4 - Seneste version før repository
+homepage=https://www.vandstande.dk/hecras
+repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/opfyld_terran_hecras
+tracker=https://github.com/vandstande/qgis-plugins/issues

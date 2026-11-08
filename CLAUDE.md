@@ -14,5 +14,7 @@ GitHub Pages som et custom plugin-repository (`plugins.xml`).
 - Plugins der hører til TimFlow-menuen tilføjer sig til menuen "TimFlow" hvis den findes,
   ellers opretter de den.
 - Kun Python-standardbibliotek i tools/. Ingen binære filer i plugins.
-- QGIS 4/Qt6: GravSkrab, grav_groefter og fyld_groefter understøtter det (compat-lag, qgisMaximumVersion=4.99,
-  supportsQt6=True). TimFlow-pluginsene er kun Qt5 (qgisMaximumVersion=3.99) indtil de porteres.
+- QGIS 4/Qt6: alle plugins understøtter QGIS 3 og 4 (qgisMaximumVersion=4.99, supportsQt6=True).
+  Brug pluginets compat.py til QAction, felttyper (felttype("Double")) og QGIS-enums (NIVEAU_*, WKB_*,
+  LAG_*, VFW_* ...). Qt-enums skrives fuldt scopet (QMessageBox.StandardButton.Yes). Brug .exec(), ikke .exec_().
+- Grupper: timflow (vandstande.dk/timflow), anlaeg (/anlaeg), hecras (/hecras).

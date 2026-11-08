@@ -2,7 +2,7 @@
 name=Indlæs modelgrid
 qgisMinimumVersion=3.16
 description=Indlæser en modelgrid-fil (*.grd) og beregner terræn minus grid, tematiseret med en gemt symbologifil.
-version=1.0.3
+version=1.1.0
 author=Jan Pedersen
 email=jan@vandstande.dk
 
@@ -17,7 +17,9 @@ deprecated=False
 tags=raster,grid,grundvand,groundwater,model,timflow
 
 homepage=https://www.vandstande.dk/timflow
-qgisMaximumVersion=3.99
-changelog=1.0.3 - Pluginets ikon i plugin-listen er nu landskabet med pilen
+qgisMaximumVersion=4.99
+changelog=1.1.0 - Virker nu også i QGIS 4 (Qt6)
+    1.0.3 - Pluginets ikon i plugin-listen er nu landskabet med pilen
     1.0.2 - Nye ikoner til knapperne Tilknyt symbologi og Indlæs modelgrid
     1.0.1 - Udgives nu via vandstande.dk plugin-repository med automatiske opdateringer
+supportsQt6=True

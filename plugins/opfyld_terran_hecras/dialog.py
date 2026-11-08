@@ -11,6 +11,7 @@ from qgis.core import QgsMapLayerProxyModel, QgsProject, QgsRasterLayer
 from qgis.gui import QgsFileWidget, QgsMapLayerComboBox
 
 from .terrain import TerrainError, layer_file_path, luk_terraen
+from .compat import LAG_LINJE, LAG_RASTER, filwidget_tilstand
 
 TITLE = "Opfyld terran HECRAS"
 SETTINGS_KEY = "OpfyldTerranHecras/"
@@ -45,7 +46,7 @@ class OpfyldDialog(QDialog):
         # ---- Banklines
         form = QFormLayout()
         self.cbBank = QgsMapLayerComboBox()
-        self.cbBank.setFilters(QgsMapLayerProxyModel.LineLayer)
+        self.cbBank.setFilters(LAG_LINJE)
         self.chkSel = QCheckBox("Brug kun valgte features (præcis 2 linjer)")
         form.addRow("Banklines:", self.cbBank)
         form.addRow("", self.chkSel)
@@ -60,9 +61,9 @@ class OpfyldDialog(QDialog):
         self.bg.addButton(self.rbLayer)
         self.bg.addButton(self.rbFile)
         self.cbDem = QgsMapLayerComboBox()
-        self.cbDem.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        self.cbDem.setFilters(LAG_RASTER)
         self.fwDem = QgsFileWidget()
-        self.fwDem.setStorageMode(QgsFileWidget.GetFile)
+        self.fwDem.setStorageMode(filwidget_tilstand("GetFile"))
         self.fwDem.setFilter("GeoTIFF (*.tif *.tiff);;Alle filer (*.*)")
         self.fwDem.setDialogTitle("Vælg terrænmodel (GeoTIFF)")
         g.addRow(self.rbLayer, self.cbDem)
@@ -72,7 +73,7 @@ class OpfyldDialog(QDialog):
         # ---- Output
         form2 = QFormLayout()
         self.fwOut = QgsFileWidget()
-        self.fwOut.setStorageMode(QgsFileWidget.SaveFile)
+        self.fwOut.setStorageMode(filwidget_tilstand("SaveFile"))
         self.fwOut.setFilter("GeoTIFF (*.tif *.tiff)")
         self.fwOut.setDialogTitle("Gem udjævnet terræn som GeoTIFF")
         form2.addRow("Gem GeoTIFF som:", self.fwOut)
@@ -170,7 +171,7 @@ class OpfyldDialog(QDialog):
             svar = QMessageBox.question(
                 self, TITLE,
                 "Filen er indlæst i Layers. Skal laget fjernes, så filen kan overskrives?")
-            if svar != QMessageBox.Yes:
+            if svar != QMessageBox.StandardButton.Yes:
                 return
             QgsProject.instance().removeMapLayers([l.id() for l in loaded])
             QApplication.processEvents()
@@ -181,7 +182,7 @@ class OpfyldDialog(QDialog):
             st.setValue(SETTINGS_KEY + "dem_file", dem_path)
 
         self.btnRun.setEnabled(False)
-        QApplication.setOverrideCursor(Qt.WaitCursor)
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         info = None
         try:
             info = luk_terraen(bank, out, dem_layer=dem_layer, dem_path=dem_path,

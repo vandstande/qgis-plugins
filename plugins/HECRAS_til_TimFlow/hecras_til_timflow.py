@@ -7,7 +7,7 @@ import string
 
 from qgis.PyQt.QtCore import QVariant
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QMenu, QMessageBox
+from qgis.PyQt.QtWidgets import QMenu, QMessageBox
 
 from qgis.core import (
     QgsProject,
@@ -22,6 +22,7 @@ from qgis.core import (
 )
 
 from .hecras_til_timflow_dialog import HecrasTilTimFlowDialog
+from .compat import QAction, VFW_NO_ERROR, VFW_OVERWRITE_LAYER, WKB_POINT, felttype
 
 
 class HecrasTilTimFlow:
@@ -114,7 +115,7 @@ class HecrasTilTimFlow:
 
     def run(self):
         dlg = HecrasTilTimFlowDialog(self.iface.mainWindow())
-        if not dlg.exec_():
+        if not dlg.exec():
             return
 
         raster_layer = dlg.raster_layer()
@@ -324,26 +325,26 @@ class HecrasTilTimFlow:
                 continue
 
             fields = QgsFields()
-            fields.append(QgsField("kote", QVariant.Double))
+            fields.append(QgsField("kote", felttype("Double")))
 
             save_options = QgsVectorFileWriter.SaveVectorOptions()
             save_options.driverName = "GPKG"
             save_options.layerName = layer_name
             save_options.actionOnExistingFile = (
-                QgsVectorFileWriter.CreateOrOverwriteLayer
+                VFW_OVERWRITE_LAYER
             )
             save_options.fileEncoding = "UTF-8"
 
             writer = QgsVectorFileWriter.create(
                 gpkg_path,
                 fields,
-                QgsWkbTypes.Point,
+                WKB_POINT,
                 project_crs,
                 transform_context,
                 save_options,
             )
 
-            if writer is None or writer.hasError() != QgsVectorFileWriter.NoError:
+            if writer is None or writer.hasError() != VFW_NO_ERROR:
                 err = writer.errorMessage() if writer is not None else "ukendt fejl"
                 raise RuntimeError(
                     "Kunne ikke oprette laget '{}': {}".format(layer_name, err)

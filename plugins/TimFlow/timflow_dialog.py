@@ -53,6 +53,7 @@ import timflow.steady as tfs
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import filedialog
+from .compat import GEOM_POINT, GEOM_POLYGON, RENDER_MM, VFW_NO_ERROR, VFW_OVERWRITE_FILE, VFW_OVERWRITE_LAYER, WKB_POINT, WKB_POLYGON, felttype
 
 
 def main():
@@ -198,10 +199,10 @@ class TimFlowDialog(QDialog):
         while symbol.symbolLayerCount() > 0:
             symbol.deleteSymbolLayer(0)
         fill_layer = QgsSimpleFillSymbolLayer()
-        fill_layer.setBrushStyle(Qt.NoBrush)
+        fill_layer.setBrushStyle(Qt.BrushStyle.NoBrush)
         fill_layer.setStrokeColor(QColor(0, 0, 0))
         fill_layer.setStrokeWidth(1.00)
-        fill_layer.setStrokeWidthUnit(QgsUnitTypes.RenderMillimeters)
+        fill_layer.setStrokeWidthUnit(RENDER_MM)
         symbol.appendSymbolLayer(fill_layer)
         layer.renderer().setSymbol(symbol)
         layer.triggerRepaint()
@@ -286,7 +287,7 @@ class TimFlowDialog(QDialog):
             if tname == "Reference":
                 continue
             vl = self._load_layer(tname)
-            if vl.isValid() and vl.geometryType() == QgsWkbTypes.PolygonGeometry:
+            if vl.isValid() and vl.geometryType() == GEOM_POLYGON:
                 return tname
         return None
 
@@ -383,38 +384,38 @@ class TimFlowDialog(QDialog):
             return
 
         fields_model = QgsFields()
-        fields_model.append(QgsField("grid_x", QVariant.Int))
-        fields_model.append(QgsField("grid_y", QVariant.Int))
-        fields_model.append(QgsField("jordtype", QVariant.Double))
+        fields_model.append(QgsField("grid_x", felttype("Int")))
+        fields_model.append(QgsField("grid_y", felttype("Int")))
+        fields_model.append(QgsField("jordtype", felttype("Double")))
 
         opt_model = QgsVectorFileWriter.SaveVectorOptions()
         opt_model.driverName = "GPKG"
         opt_model.fileEncoding = "UTF-8"
         opt_model.layerName = model_name
-        opt_model.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteFile
+        opt_model.actionOnExistingFile = VFW_OVERWRITE_FILE
 
         writer = QgsVectorFileWriter.create(
-            path, fields_model, QgsWkbTypes.Polygon, crs, QgsProject.instance().transformContext(), opt_model
+            path, fields_model, WKB_POLYGON, crs, QgsProject.instance().transformContext(), opt_model
         )
-        if writer is None or writer.hasError() != QgsVectorFileWriter.NoError:
+        if writer is None or writer.hasError() != VFW_NO_ERROR:
             QMessageBox.critical(self, "Fejl", "Kunne ikke oprette polygonlaget '{model_name}' i geopackage.")
             return
         del writer
 
         # --- Lag: Reference (Point) - tilføjes til den netop oprettede gpkg ---
         fields_ref = QgsFields()
-        fields_ref.append(QgsField("refkote", QVariant.Double))
+        fields_ref.append(QgsField("refkote", felttype("Double")))
 
         opt_ref = QgsVectorFileWriter.SaveVectorOptions()
         opt_ref.driverName = "GPKG"
         opt_ref.fileEncoding = "UTF-8"
         opt_ref.layerName = "Reference"
-        opt_ref.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
+        opt_ref.actionOnExistingFile = VFW_OVERWRITE_LAYER
 
         writer2 = QgsVectorFileWriter.create(
-            path, fields_ref, QgsWkbTypes.Point, crs, QgsProject.instance().transformContext(), opt_ref
+            path, fields_ref, WKB_POINT, crs, QgsProject.instance().transformContext(), opt_ref
         )
-        if writer2 is None or writer2.hasError() != QgsVectorFileWriter.NoError:
+        if writer2 is None or writer2.hasError() != VFW_NO_ERROR:
             QMessageBox.critical(self, "Fejl", "Kunne ikke oprette laget 'Reference' i geopackage.")
             return
         del writer2
@@ -489,19 +490,19 @@ class TimFlowDialog(QDialog):
             return
 
         fields = QgsFields()
-        fields.append(QgsField("kote", QVariant.Double))
+        fields.append(QgsField("kote", felttype("Double")))
 
         crs = self.get_project_crs()
         opt = QgsVectorFileWriter.SaveVectorOptions()
         opt.driverName = "GPKG"
         opt.fileEncoding = "UTF-8"
         opt.layerName = layer_name
-        opt.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
+        opt.actionOnExistingFile = VFW_OVERWRITE_LAYER
 
         writer = QgsVectorFileWriter.create(
-            self.gpkg_path, fields, QgsWkbTypes.Point, crs, QgsProject.instance().transformContext(), opt
+            self.gpkg_path, fields, WKB_POINT, crs, QgsProject.instance().transformContext(), opt
         )
-        if writer is None or writer.hasError() != QgsVectorFileWriter.NoError:
+        if writer is None or writer.hasError() != VFW_NO_ERROR:
             QMessageBox.critical(self, "Fejl", f"Kunne ikke oprette laget '{layer_name}'.")
             return
         del writer
@@ -546,9 +547,9 @@ class TimFlowDialog(QDialog):
             self,
             "Slet vandstand",
             f"Skal laget '{table_name}' slettes?",
-            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
         )
-        if answer != QMessageBox.Yes:
+        if answer != QMessageBox.StandardButton.Yes:
             return
 
         # Fjern laget fra projektet først, så der ikke ligger en fil-lås på det
@@ -675,7 +676,7 @@ class TimFlowDialog(QDialog):
             vl = self._load_layer(tname)
             if not vl.isValid():
                 continue
-            if vl.geometryType() != QgsWkbTypes.PointGeometry:
+            if vl.geometryType() != GEOM_POINT:
                 continue
             if vl.fields().indexFromName("kote") < 0:
                 continue
@@ -763,9 +764,9 @@ class TimFlowDialog(QDialog):
             self,
             "TimFlow",
             "Skal modellen beregnes?",
-            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
         )
-        if answer == QMessageBox.Yes:
+        if answer == QMessageBox.StandardButton.Yes:
             try:
                 # Åbn en ny CMD-prompt og kør scriptet i den, med det miljø
                 # (bl.a. PATH) man ville få ved selv at åbne en CMD-prompt -

@@ -27,6 +27,7 @@ from qgis.PyQt.QtWidgets import (
 
 from . import del1_banklines
 from . import del2_profilpunkter
+from .compat import LAG_LINJE, LAG_RASTER
 
 
 DEL1_INTRO = (
@@ -91,7 +92,7 @@ class HecrasRiverDialog(QDialog):
         form = QFormLayout()
 
         self.d1_centerline = QgsMapLayerComboBox()
-        self.d1_centerline.setFilters(QgsMapLayerProxyModel.LineLayer)
+        self.d1_centerline.setFilters(LAG_LINJE)
         form.addRow("Rivercenter line:", self.d1_centerline)
 
         self.d1_bredde = QDoubleSpinBox()
@@ -183,15 +184,15 @@ class HecrasRiverDialog(QDialog):
         form = QFormLayout()
 
         self.d2_centerline = QgsMapLayerComboBox()
-        self.d2_centerline.setFilters(QgsMapLayerProxyModel.LineLayer)
+        self.d2_centerline.setFilters(LAG_LINJE)
         form.addRow("Rivercenter line:", self.d2_centerline)
 
         self.d2_xs = QgsMapLayerComboBox()
-        self.d2_xs.setFilters(QgsMapLayerProxyModel.LineLayer)
+        self.d2_xs.setFilters(LAG_LINJE)
         form.addRow("Cross section lines (m. Riverstation):", self.d2_xs)
 
         self.d2_terrain = QgsMapLayerComboBox()
-        self.d2_terrain.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        self.d2_terrain.setFilters(LAG_RASTER)
         form.addRow("Terræn:", self.d2_terrain)
 
         self.d2_spacing = QDoubleSpinBox()

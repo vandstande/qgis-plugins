@@ -14,13 +14,14 @@ from qgis.core import (
 )
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QFileDialog, QMessageBox
+from qgis.PyQt.QtWidgets import QFileDialog, QMessageBox
 
 from .symbology_dialog import (
     SymbologyDialog,
     SETTINGS_QML_KEY,
     SETTINGS_TERRAIN_LAYER_KEY,
 )
+from .compat import NIVEAU_ADVARSEL, NIVEAU_FEJL, NIVEAU_SUCCES, QAction, RFW_NO_ERROR
 
 PLUGIN_NAME = "Indlæs modelgrid"
 
@@ -139,7 +140,7 @@ class IndlaesModelgridPlugin:
     # ------------------------------------------------------------------
     def open_symbology_dialog(self):
         dialog = SymbologyDialog(self.iface.mainWindow())
-        dialog.exec_()
+        dialog.exec()
 
     # ------------------------------------------------------------------
     # Knap 2: Indlæs modelgrid
@@ -214,7 +215,7 @@ class IndlaesModelgridPlugin:
                 terrain_layer, grid_path, project_crs, output_path
             )
         except Exception as exc:
-            QgsMessageLog.logMessage(str(exc), PLUGIN_NAME, level=Qgis.Critical)
+            QgsMessageLog.logMessage(str(exc), PLUGIN_NAME, level=NIVEAU_FEJL)
             QMessageBox.critical(
                 self.iface.mainWindow(),
                 PLUGIN_NAME,
@@ -239,7 +240,7 @@ class IndlaesModelgridPlugin:
                 QgsMessageLog.logMessage(
                     "Kunne ikke indlæse symbologi: {}".format(error_msg),
                     PLUGIN_NAME,
-                    level=Qgis.Warning,
+                    level=NIVEAU_ADVARSEL,
                 )
             result_layer.triggerRepaint()
 
@@ -247,7 +248,7 @@ class IndlaesModelgridPlugin:
         self.iface.messageBar().pushMessage(
             PLUGIN_NAME,
             "Modelgrid indlæst og lag '{}' oprettet.".format(result_layer_name),
-            level=Qgis.Success,
+            level=NIVEAU_SUCCES,
             duration=5,
         )
 
@@ -385,7 +386,7 @@ class IndlaesModelgridPlugin:
         error = file_writer.writeRaster(
             pipe, width, height, extent, crs, QgsProject.instance().transformContext()
         )
-        if error != QgsRasterFileWriter.NoError:
+        if error != RFW_NO_ERROR:
             raise RuntimeError(
                 "Fejl ved indlæsning af data for laget '{}' (fejlkode {}). "
                 "Dette kan skyldes en netværksfejl mod datakilden.".format(

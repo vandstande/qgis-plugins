@@ -44,6 +44,7 @@ from .geometry_utils import (
     sample_stations,
     write_point_layer,
 )
+from .compat import WKB_MULTIPOINT, WKB_POINT, felttype
 
 
 def _sample_elevation(terrain_layer, point):
@@ -86,9 +87,9 @@ def _extract_points(geom):
     flat_type = QgsWkbTypes.flatType(geom.wkbType())
     pts = []
 
-    if flat_type == QgsWkbTypes.Point:
+    if flat_type == WKB_POINT:
         pts.append(geom.asPoint())
-    elif flat_type == QgsWkbTypes.MultiPoint:
+    elif flat_type == WKB_MULTIPOINT:
         pts.extend(geom.asMultiPoint())
     elif geom.isMultipart():
         for part in geom.asGeometryCollection():
@@ -137,9 +138,9 @@ def build_profile_and_midpoints(centerline_layer, xs_layer, terrain_layer, spaci
     point_fields = QgsFields()
     for f in src_fields:
         point_fields.append(QgsField(f.name(), f.type()))
-    point_fields.append(QgsField("XSId", QVariant.Int))
-    point_fields.append(QgsField("PtDist", QVariant.Double))
-    point_fields.append(QgsField("Elev", QVariant.Double))
+    point_fields.append(QgsField("XSId", felttype("Int")))
+    point_fields.append(QgsField("PtDist", felttype("Double")))
+    point_fields.append(QgsField("Elev", felttype("Double")))
 
     centerline_geom = _prepare_centerline_geom(centerline_layer, crs)
 

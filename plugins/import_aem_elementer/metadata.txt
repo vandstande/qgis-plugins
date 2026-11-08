@@ -1,8 +1,8 @@
 [general]
 name=Import AEM elementer
-qgisMinimumVersion=3.16
+qgisMinimumVersion=3.20
 description=Importer AEM elementer fra en .bbl fil til punktlag i en valgt geopackage
-version=1.0.1
+version=1.1.0
 author=Jan Pedersen
 email=jan@vandstande.dk
 
@@ -17,7 +17,9 @@ experimental=False
 deprecated=False
 
 hasProcessingProvider=no
-qgisMaximumVersion=3.99
+qgisMaximumVersion=4.99
 tags=aem,bbl,grundvand,timflow,geopackage
-changelog=1.0.1 - Udgives nu via vandstande.dk plugin-repository med automatiske opdateringer
+changelog=1.1.0 - Virker nu også i QGIS 4 (Qt6)
+    1.0.1 - Udgives nu via vandstande.dk plugin-repository med automatiske opdateringer
 homepage=https://www.vandstande.dk/timflow
+supportsQt6=True

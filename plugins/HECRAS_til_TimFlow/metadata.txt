@@ -2,7 +2,7 @@
 name=HECRAS til TimFlow
 qgisMinimumVersion=3.16
 description=Genererer punktlag med koter fra en HEC-RAS resultatfil langs HEC-RAS vandløbslinjer, klar til brug i TimFlow.
-version=1.0.1
+version=1.1.0
 author=Jan Pedersen
 email=jan@vandstande.dk
 about=Plugin der opretter punktlag i en TimFlow-geopackage ud fra en HEC-RAS resultat-raster og et HEC-RAS vandløbslag. Punkterne placeres langs hver vandløbslinje med en brugerdefineret afstand, og feltet "kote" udfyldes med den samplede værdi fra HEC-RAS resultatfilen (-999 hvis der ikke findes en værdi).
@@ -13,7 +13,9 @@ icon=icon.png
 experimental=False
 deprecated=False
 server=False
-qgisMaximumVersion=3.99
+qgisMaximumVersion=4.99
 tags=hecras,timflow,vandløb,grundvand,geopackage
-changelog=1.0.1 - Udgives nu via vandstande.dk plugin-repository med automatiske opdateringer
+changelog=1.1.0 - Virker nu også i QGIS 4 (Qt6)
+    1.0.1 - Udgives nu via vandstande.dk plugin-repository med automatiske opdateringer
 homepage=https://www.vandstande.dk/timflow
+supportsQt6=True

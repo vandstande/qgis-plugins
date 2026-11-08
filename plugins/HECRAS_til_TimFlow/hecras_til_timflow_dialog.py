@@ -9,6 +9,7 @@ from qgis.PyQt.QtWidgets import (
 )
 from qgis.gui import QgsMapLayerComboBox
 from qgis.core import QgsMapLayerProxyModel
+from .compat import LAG_LINJE, LAG_RASTER, LAG_VEKTOR
 
 
 class HecrasTilTimFlowDialog(QDialog):
@@ -24,17 +25,17 @@ class HecrasTilTimFlowDialog(QDialog):
 
         # HECRAS resultatfil - raster (tiff) lag
         self.raster_combo = QgsMapLayerComboBox(self)
-        self.raster_combo.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        self.raster_combo.setFilters(LAG_RASTER)
         form.addRow(QLabel("HECRAS resultatfil (raster):"), self.raster_combo)
 
         # HECRAS vandlob - linjelag
         self.line_combo = QgsMapLayerComboBox(self)
-        self.line_combo.setFilters(QgsMapLayerProxyModel.LineLayer)
+        self.line_combo.setFilters(LAG_LINJE)
         form.addRow(QLabel("HECRAS vandlob (linjelag):"), self.line_combo)
 
         # TimFlow model - lag fra en geopackage
         self.gpkg_combo = QgsMapLayerComboBox(self)
-        self.gpkg_combo.setFilters(QgsMapLayerProxyModel.VectorLayer)
+        self.gpkg_combo.setFilters(LAG_VEKTOR)
         form.addRow(
             QLabel("TimFlow model (vaelg et lag fra geopackagen):"),
             self.gpkg_combo,
@@ -63,7 +64,7 @@ class HecrasTilTimFlowDialog(QDialog):
         layout.addWidget(info)
 
         buttons = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel, self
         )
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
