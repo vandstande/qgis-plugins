@@ -9,18 +9,12 @@ from qgis.core import (
     QgsRasterFileWriter,
     QgsRasterPipe,
     QgsRasterProjector,
-    QgsSettings,
     QgsMessageLog,
 )
-from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QFileDialog, QMessageBox
+from qgis.PyQt.QtWidgets import QMessageBox
 
-from .symbology_dialog import (
-    SymbologyDialog,
-    SETTINGS_QML_KEY,
-    SETTINGS_TERRAIN_LAYER_KEY,
-)
+from .modelgrid_dialog import ModelgridDialog
 from .compat import NIVEAU_ADVARSEL, NIVEAU_FEJL, NIVEAU_SUCCES, QAction, RFW_NO_ERROR
 
 PLUGIN_NAME = "Indlæs modelgrid"
@@ -30,12 +24,10 @@ class IndlaesModelgridPlugin:
     def __init__(self, iface):
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
-        self.icon1_path = os.path.join(self.plugin_dir, "icon1.png")
-        self.icon2_path = os.path.join(self.plugin_dir, "icon2.png")
+        self.icon_path = os.path.join(self.plugin_dir, "icon2.png")
 
         self.toolbar = None
-        self.action_symbology = None
-        self.action_load_grid = None
+        self.action = None
         self.timflow_menu = None
         self.created_timflow_menu = False
 
@@ -43,27 +35,17 @@ class IndlaesModelgridPlugin:
     # QGIS plugin lifecycle
     # ------------------------------------------------------------------
     def initGui(self):
-        icon1 = QIcon(self.icon1_path)
-        icon2 = QIcon(self.icon2_path)
+        # Ét ikon, der åbner dialogen med fanerne "Indlæs modelgrid" og
+        # "Symbologi og terræn"
+        self.action = QAction(QIcon(self.icon_path), PLUGIN_NAME, self.iface.mainWindow())
+        self.action.setToolTip("Indlæs modelgrid og beregn terræn minus grid")
+        self.action.triggered.connect(self.open_dialog)
 
-        # Egen værktøjslinje med hver sit ikon pr. knap
         self.toolbar = self.iface.addToolBar(PLUGIN_NAME)
         self.toolbar.setObjectName("IndlaesModelgridToolbar")
+        self.toolbar.addAction(self.action)
 
-        self.action_symbology = QAction(icon1, "Tilknyt symbologi", self.iface.mainWindow())
-        self.action_symbology.triggered.connect(self.open_symbology_dialog)
-        self.action_symbology.setToolTip("Vælg symbologifil og terrænlag")
-
-        self.action_load_grid = QAction(icon2, "Indlæs modelgrid", self.iface.mainWindow())
-        self.action_load_grid.triggered.connect(self.load_modelgrid)
-        self.action_load_grid.setToolTip("Indlæs en modelgrid-fil og beregn terræn minus grid")
-
-        self.toolbar.addAction(self.action_symbology)
-        self.toolbar.addAction(self.action_load_grid)
-
-        # Tilføj til Plugins-menuen som normalt
-        self.iface.addPluginToMenu(PLUGIN_NAME, self.action_symbology)
-        self.iface.addPluginToMenu(PLUGIN_NAME, self.action_load_grid)
+        self.iface.addPluginToMenu(PLUGIN_NAME, self.action)
 
         # Tilføj til "TimFlow"-menuen: brug den eksisterende, hvis den findes,
         # ellers opret menupunktet først
@@ -74,15 +56,10 @@ class IndlaesModelgridPlugin:
             self.toolbar.deleteLater()
             self.toolbar = None
 
-        if self.action_symbology is not None:
-            self.iface.removePluginMenu(PLUGIN_NAME, self.action_symbology)
+        if self.action is not None:
+            self.iface.removePluginMenu(PLUGIN_NAME, self.action)
             if self.timflow_menu is not None:
-                self.timflow_menu.removeAction(self.action_symbology)
-
-        if self.action_load_grid is not None:
-            self.iface.removePluginMenu(PLUGIN_NAME, self.action_load_grid)
-            if self.timflow_menu is not None:
-                self.timflow_menu.removeAction(self.action_load_grid)
+                self.timflow_menu.removeAction(self.action)
 
         # Hvis menupunktet "TimFlow" blev oprettet af dette plugin og nu er
         # tomt, fjernes det igen ved unload
@@ -98,12 +75,11 @@ class IndlaesModelgridPlugin:
 
     # ------------------------------------------------------------------
     def _add_to_timflow_menu(self):
-        """Tilføjer pluginets handlinger til "TimFlow"-menuen.
+        """Tilføjer pluginet til "TimFlow"-menuen.
 
         Hvis menupunktet allerede findes (søges både i hovedmenulinjen og i
         Plugins-menuens undermenuer), bruges det. Findes det ikke, oprettes
-        menupunktet "TimFlow" i hovedmenulinjen først, hvorefter pluginet
-        tilføjes til det.
+        menupunktet "TimFlow" i hovedmenulinjen først.
         """
         menu = self._find_menu_by_title("TimFlow")
 
@@ -112,8 +88,7 @@ class IndlaesModelgridPlugin:
             self.created_timflow_menu = True
 
         self.timflow_menu = menu
-        menu.addAction(self.action_symbology)
-        menu.addAction(self.action_load_grid)
+        menu.addAction(self.action)
 
     def _find_menu_by_title(self, title):
         menu_bar = self.iface.mainWindow().menuBar()
@@ -136,78 +111,13 @@ class IndlaesModelgridPlugin:
         return None
 
     # ------------------------------------------------------------------
-    # Knap 1: Tilknyt symbologi
-    # ------------------------------------------------------------------
-    def open_symbology_dialog(self):
-        dialog = SymbologyDialog(self.iface.mainWindow())
+    def open_dialog(self):
+        dialog = ModelgridDialog(self.plugin_dir, self.load_modelgrid, self.iface.mainWindow())
         dialog.exec()
 
     # ------------------------------------------------------------------
-    # Knap 2: Indlæs modelgrid
-    # ------------------------------------------------------------------
-    def load_modelgrid(self):
-        settings = QgsSettings()
-        qml_path = settings.value(SETTINGS_QML_KEY, "", type=str)
-        terrain_name = settings.value(SETTINGS_TERRAIN_LAYER_KEY, "", type=str)
-
-        if not terrain_name:
-            QMessageBox.warning(
-                self.iface.mainWindow(),
-                PLUGIN_NAME,
-                "Der er ikke valgt et terrænlag endnu.\n\n"
-                "Klik først på 'Tilknyt symbologi' og vælg en symbologifil og et terrænlag.",
-            )
-            return
-
-        terrain_layer = self._find_layer_by_name(terrain_name)
-        if terrain_layer is None:
-            QMessageBox.warning(
-                self.iface.mainWindow(),
-                PLUGIN_NAME,
-                "Det gemte terrænlag ('{}') findes ikke i det aktuelle projekt.\n\n"
-                "Vælg venligst terrænlaget igen under 'Tilknyt symbologi'.".format(
-                    terrain_name
-                ),
-            )
-            return
-
-        if qml_path and not os.path.isfile(qml_path):
-            QMessageBox.warning(
-                self.iface.mainWindow(),
-                PLUGIN_NAME,
-                "Den gemte symbologifil kunne ikke findes:\n{}\n\n"
-                "Vælg venligst en symbologifil igen under 'Tilknyt symbologi'.".format(
-                    qml_path
-                ),
-            )
-            return
-
-        grid_path, _ = QFileDialog.getOpenFileName(
-            self.iface.mainWindow(),
-            "Vælg modelgrid-fil",
-            "",
-            "Grid-filer (*.grd);;Alle filer (*.*)",
-        )
-        if not grid_path:
-            return
-
-        default_name = "terraen_minus_modelgrid_{}.tif".format(
-            os.path.splitext(os.path.basename(grid_path))[0]
-        )
-        default_dir = os.path.dirname(grid_path)
-        default_path = os.path.join(default_dir, default_name)
-
-        output_path, _ = QFileDialog.getSaveFileName(
-            self.iface.mainWindow(),
-            "Vælg navn og placering for resultatfilen",
-            default_path,
-            "GeoTIFF (*.tif)",
-        )
-        if not output_path:
-            return
-        if not output_path.lower().endswith(".tif"):
-            output_path += ".tif"
-
+    def load_modelgrid(self, grid_path, output_path, qml_path, terrain_layer):
+        """Beregner terræn minus grid og indlæser resultatet. Returnerer True ved succes."""
         project_crs = QgsProject.instance().crs()
 
         try:
@@ -221,8 +131,7 @@ class IndlaesModelgridPlugin:
                 PLUGIN_NAME,
                 "Der opstod en fejl under beregningen:\n\n{}".format(exc),
             )
-            return
-
+            return False
 
         result_layer_name = os.path.splitext(os.path.basename(output_path))[0]
         result_layer = QgsRasterLayer(result_path, result_layer_name)
@@ -232,7 +141,7 @@ class IndlaesModelgridPlugin:
                 PLUGIN_NAME,
                 "Det beregnede resultatlag kunne ikke indlæses i QGIS.",
             )
-            return
+            return False
 
         if qml_path:
             ok, error_msg = result_layer.loadNamedStyle(qml_path)
@@ -251,6 +160,7 @@ class IndlaesModelgridPlugin:
             level=NIVEAU_SUCCES,
             duration=5,
         )
+        return True
 
     # ------------------------------------------------------------------
     def _find_layer_by_name(self, name):

@@ -2,11 +2,11 @@
 name=Indlæs modelgrid
 qgisMinimumVersion=3.16
 description=Indlæser en modelgrid-fil (*.grd) og beregner terræn minus grid, tematiseret med en gemt symbologifil.
-version=1.1.0
+version=1.2.0
 author=Jan Pedersen
 email=jan@vandstande.dk
 
-about=Plugin til grundvandsmodellering. Med "Tilknyt symbologi" vælges en QML-symbologifil samt et terrænlag fra lag-listen. Valget gemmes, så det huskes efter QGIS lukkes. Med "Indlæs modelgrid" vælges en modelgrid-fil (*.grd); pluginet tilpasser gridfilens georeference til QGIS-projektet, beregner terræn minus grid, opretter et nyt lag og tematiserer det med den valgte symbologi. Hvis der findes et menupunkt "TimFlow", tilføjes pluginet også der.
+about=Plugin til grundvandsmodellering med ét ikon, der åbner et vindue med 2 faner. På fanen "Symbologi og terræn" vælges en QML-symbologifil og et terrænlag fra lag-listen; valget gemmes, så det huskes efter QGIS lukkes. På fanen "Indlæs modelgrid" vælges en modelgrid-fil (*.grd) og en resultatfil; pluginet tilpasser gridfilens georeference til QGIS-projektet, beregner terræn minus grid, opretter et nyt lag og tematiserer det med den valgte symbologi. Hvis der findes et menupunkt "TimFlow", tilføjes pluginet også der.
 
 tracker=https://github.com/vandstande/qgis-plugins/issues
 repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/indlaes_modelgrid
@@ -18,7 +18,8 @@ tags=raster,grid,grundvand,groundwater,model,timflow
 
 homepage=https://www.vandstande.dk/timflow
 qgisMaximumVersion=4.99
-changelog=1.1.0 - Virker nu også i QGIS 4 (Qt6)
+changelog=1.2.0 - Ét ikon i stedet for to: vinduet har nu fanerne Indlæs modelgrid og Symbologi og terræn
+    1.1.0 - Virker nu også i QGIS 4 (Qt6)
     1.0.3 - Pluginets ikon i plugin-listen er nu landskabet med pilen
     1.0.2 - Nye ikoner til knapperne Tilknyt symbologi og Indlæs modelgrid
     1.0.1 - Udgives nu via vandstande.dk plugin-repository med automatiske opdateringer
