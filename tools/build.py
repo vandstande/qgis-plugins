@@ -11,7 +11,7 @@ Kommandoer:
   python tools/build.py import <fil.zip> <gruppe>
                                              Tilføj et plugin fra en zip-fil
   python tools/build.py build [--out _site] [--previous URL|auto|none]
-                                             Byg zip-filer, plugins.xml, manifest.json og index.html
+                                             Byg zip-filer (<mappe>.<version>.zip), plugins.xml, manifest.json og index.html
 
 Kun Python-standardbiblioteket bruges (Python 3.11+).
 """
@@ -453,7 +453,7 @@ def cmd_build(args) -> int:
     for p in plugins:
         md = p.md
         ver = md["version"]
-        zname = f"{p.folder}-{ver}.zip"
+        zname = f"{p.folder}.{ver}.zip"  # QGIS bruger teksten før første punktum som plugin-id
         zpath = out / "zips" / zname
         with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
             for f in plugin_files(p.path):
