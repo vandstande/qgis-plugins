@@ -5,14 +5,15 @@ from qgis.PyQt.QtWidgets import (
 )
 from qgis.core import QgsMapLayerProxyModel, QgsSettings
 from qgis.gui import QgsFieldComboBox, QgsFileWidget, QgsMapLayerComboBox
+from .compat import LAG_POLYGON, LAG_RASTER, filwidget_tilstand
 
 try:  # QGIS >= 3.34
     from qgis.core import Qgis
     RASTER = Qgis.LayerFilter.RasterLayer
     POLYGON = Qgis.LayerFilter.PolygonLayer
 except AttributeError:
-    RASTER = QgsMapLayerProxyModel.RasterLayer
-    POLYGON = QgsMapLayerProxyModel.PolygonLayer
+    RASTER = LAG_RASTER
+    POLYGON = LAG_POLYGON
 
 INDSTILLING = "VurderNatur/"
 
@@ -62,7 +63,7 @@ class VurderNaturDialog(QDialog):
         ud = QGroupBox("Resultat")
         uv = QVBoxLayout(ud)
         self.fil = QgsFileWidget()
-        self.fil.setStorageMode(QgsFileWidget.SaveFile)
+        self.fil.setStorageMode(filwidget_tilstand("SaveFile"))
         self.fil.setFilter("Excel (*.xlsx)")
         self.fil.setFilePath(s.value(INDSTILLING + "fil", ""))
         self.aabn = QCheckBox("Åbn filen når beregningen er færdig")
@@ -71,8 +72,8 @@ class VurderNaturDialog(QDialog):
         uv.addWidget(self.fil)
         uv.addWidget(self.aabn)
 
-        knapper = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        knapper.button(QDialogButtonBox.Ok).setText("Kør vurdering")
+        knapper = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        knapper.button(QDialogButtonBox.StandardButton.Ok).setText("Kør vurdering")
         knapper.accepted.connect(self.accept)
         knapper.rejected.connect(self.reject)
 

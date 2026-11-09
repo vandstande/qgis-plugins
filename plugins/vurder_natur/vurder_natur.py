@@ -3,8 +3,9 @@ import os
 
 from qgis.PyQt.QtCore import Qt, QUrl
 from qgis.PyQt.QtGui import QCursor, QDesktopServices, QIcon
-from qgis.PyQt.QtWidgets import QAction, QApplication, QMenu, QMessageBox
+from qgis.PyQt.QtWidgets import QApplication, QMenu, QMessageBox
 from qgis.core import Qgis
+from .compat import NIVEAU_SUCCES, QAction
 
 MENU_TITEL = "Naturvurdering"
 MENU_NAVN = "mNaturvurdering"
@@ -56,7 +57,7 @@ class VurderNaturPlugin:
         from .dialog import VurderNaturDialog
         dlg = VurderNaturDialog(self.iface.mainWindow())
         while True:
-            if not dlg.exec_():
+            if not dlg.exec():
                 return
             fejl = self._tjek(dlg)
             if not fejl:
@@ -102,7 +103,7 @@ class VurderNaturPlugin:
             self.iface.statusBarIface().showMessage("Vurder natur: " + t)
             QApplication.processEvents()
 
-        QApplication.setOverrideCursor(QCursor(Qt.WaitCursor))
+        QApplication.setOverrideCursor(QCursor(Qt.CursorShape.WaitCursor))
         try:
             res = analyse.koer(dlg.nutid.currentLayer(), dlg.fremtid.currentLayer(),
                                dlg.natur.currentLayer(), dlg.felt.currentField(),
@@ -121,6 +122,6 @@ class VurderNaturPlugin:
             self.iface.statusBarIface().clearMessage()
         QApplication.restoreOverrideCursor()
 
-        bar.pushMessage("Vurder natur", f"Resultat gemt i {skrevet}", level=Qgis.Success, duration=8)
+        bar.pushMessage("Vurder natur", f"Resultat gemt i {skrevet}", level=NIVEAU_SUCCES, duration=8)
         if dlg.aabn.isChecked():
             QDesktopServices.openUrl(QUrl.fromLocalFile(skrevet))

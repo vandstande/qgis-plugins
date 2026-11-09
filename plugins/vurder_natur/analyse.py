@@ -17,6 +17,7 @@ from qgis.core import (
 )
 
 from . import beregning as b
+from .compat import CRS_WKT_GDAL, GEOM_POLYGON, TRANSFORM_OMVENDT
 
 NODATA = -99999.0
 
@@ -51,10 +52,10 @@ def _gyldig_geom(g):
         g = QgsGeometry(a)
     if not g.isGeosValid():
         g = g.makeValid()
-    if g.type() != QgsWkbTypes.PolygonGeometry:
+    if g.type() != GEOM_POLYGON:
         # fx GeometryCollection: behold kun fladerne
         dele = [d for d in g.asGeometryCollection()
-                if d.type() == QgsWkbTypes.PolygonGeometry and not d.isEmpty()]
+                if d.type() == GEOM_POLYGON and not d.isEmpty()]
         if not dele:
             return None
         g = QgsGeometry.collectGeometry(dele)
@@ -101,7 +102,7 @@ def _grid(ds, bbox):
 
 
 def _laes_raster(lyr, bounds, rx, ry, wkt):
-    src_wkt = lyr.crs().toWkt(QgsCoordinateReferenceSystem.WKT_PREFERRED_GDAL)
+    src_wkt = lyr.crs().toWkt(CRS_WKT_GDAL)
     ds = gdal.Warp(
         "", _raster_sti(lyr), format="MEM",
         outputBounds=bounds, xRes=rx, yRes=ry,
@@ -118,7 +119,9 @@ def _laes_raster(lyr, bounds, rx, ry, wkt):
 
 def _braend(mem, geoms, srs):
     """Brænder geometrierne ind i rastret. Returnerer GDAL-fejlkode (0 = ok)."""
-    vds = ogr.GetDriverByName("Memory").CreateDataSource("")
+    # GDAL >= 3.11 har samlet "Memory" i "MEM"; prøv begge
+    drv = ogr.GetDriverByName("Memory") or ogr.GetDriverByName("MEM")
+    vds = drv.CreateDataSource("")
     vlyr = vds.CreateLayer("tmp", srs, ogr.wkbMultiPolygon)
     for g in geoms:
         og = ogr.CreateGeometryFromWkb(bytes(g.asWkb()))
@@ -156,7 +159,7 @@ def koer(nutid_lyr, fremtid_lyr, natur_lyr, kode_felt, projekt_lyr, typer, statu
     if crs.isGeographic():
         raise AnalyseFejl("Afvandingsmodellen skal være i et projiceret koordinatsystem (meter), "
                           "fx EPSG:25832, for at arealer kan beregnes.")
-    wkt = crs.toWkt(QgsCoordinateReferenceSystem.WKT_PREFERRED_GDAL)
+    wkt = crs.toWkt(CRS_WKT_GDAL)
 
     meld("Læser projektgrænse …")
     projekt = _projekt_geometri(projekt_lyr, crs)
@@ -174,7 +177,7 @@ def koer(nutid_lyr, fremtid_lyr, natur_lyr, kode_felt, projekt_lyr, typer, statu
 
     meld("Læser naturbeskyttelse …")
     tr = QgsCoordinateTransform(natur_lyr.crs(), crs, QgsProject.instance())
-    rect = tr.transformBoundingBox(bbox, QgsCoordinateTransform.ReverseTransform)
+    rect = tr.transformBoundingBox(bbox, TRANSFORM_OMVENDT)
     req = QgsFeatureRequest().setFilterRect(rect)
     andre, pr_kode = [], {b.SOE: [], b.MOSE: [], b.ENG: []}
     for f in natur_lyr.getFeatures(req):
