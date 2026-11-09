@@ -3,15 +3,16 @@ name=Vurder natur
 qgisMinimumVersion=3.22
 description=Opgør ændringer i naturtype (sø, mose, eng) inden for en projektgrænse ud fra nutidig og fremtidig afvandingsmodel.
 about=Sammenholder to afvandingsmodeller med naturbeskyttelseslaget og laver en ha-opgørelse i Excel over nuværende natur, beskyttede arealer der skifter naturtype, og nye naturarealer uden for naturbeskyttelsen. Placeres i menuen Naturvurdering.
-version=0.6.0
+version=0.7.0
 author=Jan Pedersen
 email=jan@vandstande.dk
 icon=icon.png
-experimental=True
+experimental=False
 tags=natur,afvanding,vådområde,§3
 qgisMaximumVersion=4.99
 supportsQt6=True
-changelog=0.6.0 - Virker nu også i QGIS 4 (Qt6). Udgives via vandstande.dk plugin-repository
+changelog=0.7.0 - Ikke længere eksperimentel – fagligt gennemgået af biolog
+    0.6.0 - Virker nu også i QGIS 4 (Qt6). Udgives via vandstande.dk plugin-repository
     0.5 - Seneste version før repository
 homepage=https://www.vandstande.dk/naturvurdering
 repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/vurder_natur
