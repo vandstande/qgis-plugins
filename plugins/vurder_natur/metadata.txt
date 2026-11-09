@@ -1,0 +1,12 @@
+[general]
+name=Vurder natur
+qgisMinimumVersion=3.22
+description=Opgør ændringer i naturtype (sø, mose, eng) inden for en projektgrænse ud fra nutidig og fremtidig afvandingsmodel.
+about=Sammenholder to afvandingsmodeller med naturbeskyttelseslaget og laver en ha-opgørelse i Excel over nuværende natur, beskyttede arealer der skifter naturtype, og nye naturarealer uden for naturbeskyttelsen. Placeres i menuen Naturvurdering.
+version=0.5
+author=Jan
+email=janp1908@gmail.com
+category=Plugins
+icon=icon.png
+experimental=True
+tags=natur,afvanding,vådområde,§3

@@ -36,6 +36,10 @@ homepage = "https://www.vandstande.dk/anlaeg"
 navn     = "HEC-RAS-værktøjer"
 homepage = "https://www.vandstande.dk/hecras"
 
+[grupper.naturvurdering]
+navn     = "Naturvurdering"
+homepage = "https://www.vandstande.dk/naturvurdering"
+
 # Plugin-mappe (under plugins/)  =  gruppe
 # Mappenavnet skal være det samme som pluginets Python-mappenavn.
 [plugins]
@@ -49,3 +53,4 @@ fyld_groefter = "anlaeg"
 hecras_river = "hecras"
 opmaaling_hecras = "hecras"
 opfyld_terran_hecras = "hecras"
+vurder_natur = "naturvurdering"
