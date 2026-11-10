@@ -9,7 +9,8 @@ derfra og giver brugerne besked om opdateringer.
 ## Struktur
 
 ```
-plugins.toml            Fælles felter (forfatter, e-mail, QGIS-version) + hvilken
+plugins.toml            Fælles felter (forfatter, e-mail), grupper og rækkefølgen
+                        på oversigtssiden + hvilken
                         hjemmeside hvert plugin hører til
 plugins/<mappe>/        Ét plugin pr. mappe – præcis som det ligger i QGIS' plugin-mappe
 tools/build.py          Byg, valider, hæv version, importer

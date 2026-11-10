@@ -24,17 +24,18 @@ email              = "jan@vandstande.dk"
 
 # Grupper = sammenhængen til hjemmesiderne.
 # Hvert plugins "homepage" sættes til gruppens side.
+# Rækkefølgen af grupper og plugins herunder er rækkefølgen på oversigtssiden.
 [grupper.timflow]
-navn     = "TimFlow og HEC-RAS-værktøjer"
+navn     = "TimFlow – grundvand"
 homepage = "https://www.vandstande.dk/timflow"
-
-[grupper.anlaeg]
-navn     = "Anlægsværktøjer"
-homepage = "https://www.vandstande.dk/anlaeg"
 
 [grupper.hecras]
 navn     = "HEC-RAS-værktøjer"
 homepage = "https://www.vandstande.dk/hecras"
+
+[grupper.anlaeg]
+navn     = "Anlægsværktøjer"
+homepage = "https://www.vandstande.dk/anlaeg"
 
 [grupper.naturvurdering]
 navn     = "Naturvurdering"
@@ -47,10 +48,10 @@ TimFlow = "timflow"
 indlaes_modelgrid = "timflow"
 HECRAS_til_TimFlow = "timflow"
 import_aem_elementer = "timflow"
-GravSkrab = "anlaeg"
-grav_groefter = "anlaeg"
-fyld_groefter = "anlaeg"
 hecras_river = "hecras"
 opmaaling_hecras = "hecras"
 opfyld_terran_hecras = "hecras"
+GravSkrab = "anlaeg"
+grav_groefter = "anlaeg"
+fyld_groefter = "anlaeg"
 vurder_natur = "naturvurdering"

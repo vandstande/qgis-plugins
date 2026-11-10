@@ -222,7 +222,8 @@ def discover(cfg: Config) -> list[Plugin]:
     if missing:
         raise BuildError("plugins.toml nævner mapper der ikke findes i plugins/: " + ", ".join(missing))
     result = []
-    for folder in found:
+    # Rækkefølgen følger [plugins] i plugins.toml (bruges på oversigtssiden og i plugins.xml)
+    for folder in cfg.plugins:
         mfile = PLUGINS_DIR / folder / "metadata.txt"
         if not mfile.exists():
             raise BuildError(f"{folder}: mangler metadata.txt")
