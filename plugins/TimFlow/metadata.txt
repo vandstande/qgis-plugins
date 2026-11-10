@@ -2,7 +2,7 @@
 name=TimFlow
 qgisMinimumVersion=3.16
 description=TimFlow - opbygning og beregning af grundvandsmodeller (TimML/TTim) via en geopackage-baseret datastruktur.
-version=4.6.0
+version=4.6.1
 author=Jan Pedersen
 email=jan@vandstande.dk
 about=TimFlow lader dig oprette en geopackage med et polygonlag med modelnavnet og laget "Reference", tilføje vandstandslag, beregne et referencepunkt, og generere/afvikle et Python-beregningsscript baseret på TimML/TTim (timflow.steady).
@@ -16,6 +16,7 @@ experimental=False
 deprecated=False
 server=False
 qgisMaximumVersion=4.99
-changelog=4.6.0 - Virker nu også i QGIS 4 (Qt6)
+changelog=4.6.1 - Rettet: fejlen NameError felttype ved oprettelse af ny model, og beregningsscriptet fik en forkert import
+    4.6.0 - Virker nu også i QGIS 4 (Qt6)
     4.5.1 - Udgives nu via vandstande.dk plugin-repository med automatiske opdateringer
 supportsQt6=True

@@ -36,6 +36,7 @@ from qgis.core import (
     QgsFillSymbol,
     QgsUnitTypes,
 )
+from .compat import GEOM_POINT, GEOM_POLYGON, RENDER_MM, VFW_NO_ERROR, VFW_OVERWRITE_FILE, VFW_OVERWRITE_LAYER, WKB_POINT, WKB_POLYGON, felttype
 
 
 FALLBACK_CRS = "EPSG:25832"
@@ -53,7 +54,6 @@ import timflow.steady as tfs
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import filedialog
-from .compat import GEOM_POINT, GEOM_POLYGON, RENDER_MM, VFW_NO_ERROR, VFW_OVERWRITE_FILE, VFW_OVERWRITE_LAYER, WKB_POINT, WKB_POLYGON, felttype
 
 
 def main():

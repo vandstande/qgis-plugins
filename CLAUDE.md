@@ -17,4 +17,6 @@ GitHub Pages som et custom plugin-repository (`plugins.xml`).
 - QGIS 4/Qt6: alle plugins understøtter QGIS 3 og 4 (qgisMaximumVersion=4.99, supportsQt6=True).
   Brug pluginets compat.py til QAction, felttyper (felttype("Double")) og QGIS-enums (NIVEAU_*, WKB_*,
   LAG_*, VFW_* ...). Qt-enums skrives fuldt scopet (QMessageBox.StandardButton.Yes). Brug .exec(), ikke .exec_().
+  Kør `python tools/tjek_imports.py` efter ændringer (kører også i CI). Pas på TimFlow's TEMPLATE-streng:
+  den er kildekode til det genererede beregningsscript og må ikke få QGIS-importer.
 - Grupper: timflow (vandstande.dk/timflow), anlaeg (/anlaeg), hecras (/hecras), naturvurdering (/naturvurdering).

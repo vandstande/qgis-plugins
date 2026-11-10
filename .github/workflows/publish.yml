@@ -27,6 +27,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Tjek compat-importer (QGIS 3/4)
+        run: python tools/tjek_imports.py
+
       - name: Byg (stopper hvis et plugin er ændret uden ny version)
         run: python tools/build.py build --out _site --previous auto
 
