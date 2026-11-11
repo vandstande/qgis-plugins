@@ -20,7 +20,7 @@ import os
 
 from qgis.PyQt.QtCore import QVariant, Qt
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QMessageBox
+from qgis.PyQt.QtWidgets import QMenu, QMessageBox
 from qgis.core import (
     Qgis,
     QgsCoordinateReferenceSystem,
@@ -45,6 +45,8 @@ class ImportAemElementer:
         self.plugin_dir = os.path.dirname(__file__)
         self.action = None
         self.menu = "&Import AEM elementer"
+        self.timflow_menu = None
+        self._created_timflow_menu = False
 
     # ------------------------------------------------------------------
     # QGIS plugin boilerplate
@@ -58,9 +60,51 @@ class ImportAemElementer:
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToMenu(self.menu, self.action)
 
+        # Tilføj også til top-level menuen "TimFlow". Findes den ikke endnu,
+        # oprettes den først (ligesom i de andre TimFlow-plugins).
+        self.timflow_menu = self._find_timflow_menu()
+        if self.timflow_menu is None:
+            self.timflow_menu = self._create_timflow_menu()
+            self._created_timflow_menu = True
+        self.timflow_menu.addAction(self.action)
+
     def unload(self):
         self.iface.removePluginMenu(self.menu, self.action)
         self.iface.removeToolBarIcon(self.action)
+
+        if self.timflow_menu is not None:
+            self.timflow_menu.removeAction(self.action)
+            # Fjern kun "TimFlow"-menuen, hvis dette plugin oprettede den,
+            # og intet andet plugin har lagt sig i den
+            if self._created_timflow_menu and self.timflow_menu.isEmpty():
+                menubar = self.iface.mainWindow().menuBar()
+                menubar.removeAction(self.timflow_menu.menuAction())
+                self.timflow_menu.deleteLater()
+            self.timflow_menu = None
+
+    def _find_timflow_menu(self):
+        """Finder en eksisterende top-level menu 'TimFlow' i menubaren."""
+        for action in self.iface.mainWindow().menuBar().actions():
+            menu = action.menu()
+            if menu is not None and menu.title().replace("&", "").strip().lower() == "timflow":
+                return menu
+        return None
+
+    def _create_timflow_menu(self):
+        """Opretter top-level menuen 'TimFlow', placeret før Hjælp-menuen."""
+        menubar = self.iface.mainWindow().menuBar()
+        menu = QMenu("TimFlow", menubar)
+        help_menu = None
+        for action in menubar.actions():
+            m = action.menu()
+            if m is not None and m.title().replace("&", "").strip().lower() in ("help", "hjælp"):
+                help_menu = m
+                break
+        if help_menu is not None:
+            menubar.insertMenu(help_menu.menuAction(), menu)
+        else:
+            menubar.addMenu(menu)
+        return menu
 
     # ------------------------------------------------------------------
     # Hovedlogik

@@ -2,11 +2,11 @@
 name=Import AEM elementer
 qgisMinimumVersion=3.20
 description=Importer AEM elementer fra en .bbl fil til punktlag i en valgt geopackage
-version=1.1.0
+version=1.1.1
 author=Jan Pedersen
 email=jan@vandstande.dk
 
-about=Pluginet lader dig vælge en .bbl fil samt en geopackage (via et valgt lag i lagpanelet). Filen læses, og hvert "Head <NAVN> ... &" element bliver oprettet som et selvstændigt punktlag i geopackagen, med koordinaterne som geometri og Z-værdien gemt i feltet "kote" (2 decimaler). De oprettede lag får samme georeference (CRS) som det aktuelle QGIS-projekt og tilføjes automatisk til projektet.
+about=Pluginet lader dig vælge en .bbl fil samt en geopackage (via et valgt lag i lagpanelet). Filen læses, og hvert "Head <NAVN> ... &" element bliver oprettet som et selvstændigt punktlag i geopackagen, med koordinaterne som geometri og Z-værdien gemt i feltet "kote" (2 decimaler). De oprettede lag får samme georeference (CRS) som det aktuelle QGIS-projekt og tilføjes automatisk til projektet. Pluginet ligger også i menuen "TimFlow"; findes menuen ikke, oprettes den.
 
 tracker=https://github.com/vandstande/qgis-plugins/issues
 repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/import_aem_elementer
@@ -19,7 +19,8 @@ deprecated=False
 hasProcessingProvider=no
 qgisMaximumVersion=4.99
 tags=aem,bbl,grundvand,timflow,geopackage
-changelog=1.1.0 - Virker nu også i QGIS 4 (Qt6)
+changelog=1.1.1 - Ligger nu også i menuen TimFlow
+    1.1.0 - Virker nu også i QGIS 4 (Qt6)
     1.0.1 - Udgives nu via vandstande.dk plugin-repository med automatiske opdateringer
 homepage=https://www.vandstande.dk/timflow
 supportsQt6=True
