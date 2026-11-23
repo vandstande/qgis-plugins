@@ -5,11 +5,15 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=Foreslår projektgrænse for et vådområdeprojekt ud fra en linje i bunden af vådområdet og en terrænmodel.
 about=Brugeren vælger en linje tegnet i strømretningen i bunden af vådområdet og en terrænmodel. Plugin'et tjekker på begge sider af linjen, om den ligger i bunden af en grøft/vandløb, og sætter projektgrænsen hvor terrænet når bundkoten + en valgfri dybde (standard 1,5 m). Grænsen tegnes parallelt med linjen, lukkes opstrøms med grænsekoten ved linjens start (højst 100 m bagud - ellers lukkes den vinkelret gennem startpunktet med en advarsel) og nedstrøms vinkelret gennem linjens slutpunkt.
-version=0.2.0
+version=0.2.1
 author=Jan Pedersen
 email=jan@vandstande.dk
-category=Vector
 tags=vådområde,projektgrænse,terrænmodel,DHM,effektberegning
 experimental=True
 deprecated=False
 icon=icon.png
+changelog=0.2.1 - Rettet: kunne ikke indlæses i QGIS 4 (QAction-import). Udgives via vandstande.dk plugin-repository
+    0.2.0 – Seneste version før repository
+homepage=https://www.vandstande.dk/effekter
+repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/screening_projektgraense
+tracker=https://github.com/vandstande/qgis-plugins/issues

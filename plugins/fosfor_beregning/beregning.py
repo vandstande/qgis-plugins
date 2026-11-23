@@ -22,6 +22,7 @@ from qgis.core import (
     QgsVectorFileWriter,
     QgsWkbTypes,
 )
+from .compat import GEOM_POLYGON, VFW_NO_ERROR, VFW_OVERWRITE_FILE
 
 # Interne feltnavne (undgår navnekonflikter med brugerens felter)
 F_JORDTYPE = "_fb_jordtype"
@@ -123,7 +124,7 @@ class FosforBeregning:
                           (self.jordbundskort, "Jordbundskort")):
             if lyr is None or not lyr.isValid():
                 raise BeregningsFejl("Vælg et gyldigt lag for {}.".format(navn))
-            if lyr.geometryType() != QgsWkbTypes.PolygonGeometry:
+            if lyr.geometryType() != GEOM_POLYGON:
                 raise BeregningsFejl("{} skal være et polygonlag.".format(navn))
         if self.afvanding is None or not self.afvanding.isValid():
             raise BeregningsFejl("Vælg et gyldigt rasterlag for fremtidsmodellen (afvanding).")
@@ -254,7 +255,7 @@ class FosforBeregning:
         """Id-kolonnen beholder kildefeltets type, så tal forbliver tal i Excel."""
         fld = self.proevefelter.fields().field(self.id_felt)
         if fld.isNumeric():
-            if fld.type() in (6,):  # QVariant.Double
+            if int(getattr(fld.type(), "value", fld.type())) == 6:  # Double (QVariant og QMetaType)
                 return _field("Id", _q(self.id_felt), FIELD_DOUBLE, 20, fld.precision())
             return _field("Id", _q(self.id_felt), FIELD_INT, 10)
         return _field("Id", _q(self.id_felt), FIELD_STRING, 50)
@@ -313,14 +314,14 @@ def gem_som_xlsx(layer, path):
     options.driverName = "XLSX"
     options.fileEncoding = "UTF-8"
     options.layerName = "Fosfor"
-    options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteFile
+    options.actionOnExistingFile = VFW_OVERWRITE_FILE
     ctx = QgsProject.instance().transformContext()
     if hasattr(QgsVectorFileWriter, "writeAsVectorFormatV3"):
         res = QgsVectorFileWriter.writeAsVectorFormatV3(layer, path, ctx, options)
     else:
         res = QgsVectorFileWriter.writeAsVectorFormatV2(layer, path, ctx, options)
     err = res[0]
-    if err != QgsVectorFileWriter.NoError:
+    if err != VFW_NO_ERROR:
         msg = res[1] if len(res) > 1 else ""
         raise BeregningsFejl("Kunne ikke gemme {}: {}".format(path, msg))
     return path

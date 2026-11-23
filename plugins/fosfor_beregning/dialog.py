@@ -25,6 +25,7 @@ from qgis.PyQt.QtWidgets import (
 )
 
 from .beregning import BeregningsFejl, FosforBeregning, gem_som_xlsx
+from .compat import LAG_POLYGON, LAG_RASTER, filwidget_tilstand
 
 SETTINGS_KEY = "FosforBeregning/"
 
@@ -63,22 +64,22 @@ class FosforDialog(QDialog):
         form = QFormLayout(box_in)
 
         self.cb_projekt = QgsMapLayerComboBox()
-        self.cb_projekt.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+        self.cb_projekt.setFilters(LAG_POLYGON)
         form.addRow("Projektgrænse", self.cb_projekt)
 
         self.cb_felter = QgsMapLayerComboBox()
-        self.cb_felter.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+        self.cb_felter.setFilters(LAG_POLYGON)
         form.addRow("Jordprøvefelter", self.cb_felter)
 
         self.cb_id = QgsFieldComboBox()
         form.addRow("    ID-felt", self.cb_id)
 
         self.cb_afvanding = QgsMapLayerComboBox()
-        self.cb_afvanding.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        self.cb_afvanding.setFilters(LAG_RASTER)
         form.addRow("Fremtidsmodel (afvanding)", self.cb_afvanding)
 
         self.cb_jb = QgsMapLayerComboBox()
-        self.cb_jb.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+        self.cb_jb.setFilters(LAG_POLYGON)
         form.addRow("Jordbundskort", self.cb_jb)
 
         self.cb_jordtype = QgsFieldComboBox()
@@ -93,7 +94,7 @@ class FosforDialog(QDialog):
         box_out = QGroupBox("Output")
         form_out = QFormLayout(box_out)
         self.file_out = QgsFileWidget()
-        self.file_out.setStorageMode(QgsFileWidget.SaveFile)
+        self.file_out.setStorageMode(filwidget_tilstand("SaveFile"))
         self.file_out.setFilter("Excel (*.xlsx)")
         self.file_out.setDialogTitle("Gem resultat som Excel")
         form_out.addRow("Resultat (xlsx)", self.file_out)
@@ -241,7 +242,7 @@ class FosforDialog(QDialog):
         self.progress.setValue(0)
         self.feedback = _Feedback(self.progress)
         self._set_running(True)
-        QApplication.setOverrideCursor(Qt.WaitCursor)
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         try:
             beregning = FosforBeregning(
                 projektgraense=self.cb_projekt.currentLayer(),

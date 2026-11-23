@@ -9,14 +9,18 @@ about=Plugin-udgave af QGIS-modellen "Fosformodel_okt_2025" (Fosforautomatiserin
     Resultatet gemmes som Excel (xlsx), klar til at blive kopieret ind i Fosfor-regnearket.
     Dræningsintensiteten skal stadig vurderes manuelt.
     Findes under menuen "Effektberegning".
-version=1.0.0
-author=Jan Pedersen (efter model af Simon Haarsma, okt. 2025)
+    Modellen er udarbejdet af Simon Haarsma (okt. 2025).
+version=1.1.0
+author=Jan Pedersen
 email=jan@vandstande.dk
-category=Vector
 tags=fosfor,vådområde,jordprøver,jordbundskort,effektberegning
-homepage=https://github.com/vandstande/qgis-plugins
-repository=https://github.com/vandstande/qgis-plugins
+homepage=https://www.vandstande.dk/effekter
+repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/fosfor_beregning
 tracker=https://github.com/vandstande/qgis-plugins/issues
 icon=icon.png
 experimental=False
 deprecated=False
+qgisMaximumVersion=4.99
+supportsQt6=True
+changelog=1.1.0 - Virker nu også i QGIS 4 (Qt6). Udgives via vandstande.dk plugin-repository
+    1.0.0 – Første version, konverteret fra QGIS-modellen Fosformodel_okt_2025.

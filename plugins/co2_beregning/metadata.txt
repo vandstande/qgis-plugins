@@ -15,10 +15,9 @@ changelog=1.2.1 – Restarealet beregnes i E51 (=D5-SUM(E27:E50)); E53 er igen a
     1.1.0 – Udfylder Miljøstyrelsens "Beregningsark CO2-effekt" (valgfri skabelon) og åbner det bagefter.
     1.0.0 – Første version, konverteret fra Processing-modellen CO2_beregning_07_05_26.
 tags=co2,tørv,vådområde,effekt,areal,drifttype,markkort
-homepage=https://vandstande.dk
-repository=https://github.com/vandstande/qgis-plugins
+homepage=https://www.vandstande.dk/effekter
+repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/co2_beregning
 tracker=https://github.com/vandstande/qgis-plugins/issues
-category=Analysis
 icon=icon.png
 experimental=True
 deprecated=False

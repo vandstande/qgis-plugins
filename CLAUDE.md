@@ -19,4 +19,4 @@ GitHub Pages som et custom plugin-repository (`plugins.xml`).
   LAG_*, VFW_* ...). Qt-enums skrives fuldt scopet (QMessageBox.StandardButton.Yes). Brug .exec(), ikke .exec_().
   Kør `python tools/tjek_imports.py` efter ændringer (kører også i CI). Pas på TimFlow's TEMPLATE-streng:
   den er kildekode til det genererede beregningsscript og må ikke få QGIS-importer.
-- Grupper: timflow (vandstande.dk/timflow), anlaeg (/anlaeg), hecras (/hecras), naturvurdering (/naturvurdering).
+- Grupper: timflow (vandstande.dk/timflow), anlaeg (/anlaeg), hecras (/hecras), naturvurdering (/naturvurdering), effekter (/effekter).
