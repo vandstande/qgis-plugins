@@ -8,15 +8,16 @@ about=Plugin-udgave af Processing-modellen "Erstatningsberegning_07_05_26".
     Erstatningskortet klippes til projektgrænsen, og ejerlaget samles pr. lodsejer (navn).
     For hver lodsejer beregnes arealet (m² og ha) med sats Høj, Mellem, Konflikt og Ingen samt Høj + Konflikt.
     Resultatet kan gemmes som .xlsx og åbnes direkte. Ligger i menuen Effektberegning.
-version=1.0.0
+version=1.0.1
 author=Jan Pedersen
 email=jan@vandstande.dk
-changelog=1.0.0 – Første version, konverteret fra Processing-modellen Erstatningsberegning_07_05_26.
+changelog=1.0.1 - Ikke længere eksperimentel
+    1.0.0 – Første version, konverteret fra Processing-modellen Erstatningsberegning_07_05_26.
 tags=erstatning,lodsejer,vådområde,effekt,areal,sats
 homepage=https://www.vandstande.dk/effekter
 repository=https://github.com/vandstande/qgis-plugins/tree/main/plugins/erstatningsberegning
 tracker=https://github.com/vandstande/qgis-plugins/issues
 icon=icon.png
-experimental=True
+experimental=False
 deprecated=False
 hasProcessingProvider=yes
