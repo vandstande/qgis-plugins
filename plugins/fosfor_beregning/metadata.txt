@@ -1,0 +1,22 @@
+[general]
+name=Fosfor beregning
+qgisMinimumVersion=3.22
+description=Beregner parametre pr. jordprøvefelt til Fosfor-regnearket (vådområdeprojekter).
+about=Plugin-udgave af QGIS-modellen "Fosformodel_okt_2025" (Fosforautomatisering_07_05_26).
+    Ud fra projektgrænse, jordprøvefelter, jordbundskort og fremtidsmodellen (afvanding/grundvandsdybde)
+    beregnes for hvert jordprøvefelt: areal (ha), type af område (permanent vådt / delvist vådt / tørt),
+    over/under vandløbets middelvandstand, grundvandsdybde, tekstur (dominerende jordtype) og permeabilitet.
+    Resultatet gemmes som Excel (xlsx), klar til at blive kopieret ind i Fosfor-regnearket.
+    Dræningsintensiteten skal stadig vurderes manuelt.
+    Findes under menuen "Effektberegning".
+version=1.0.0
+author=Jan Pedersen (efter model af Simon Haarsma, okt. 2025)
+email=jan@vandstande.dk
+category=Vector
+tags=fosfor,vådområde,jordprøver,jordbundskort,effektberegning
+homepage=https://github.com/vandstande/qgis-plugins
+repository=https://github.com/vandstande/qgis-plugins
+tracker=https://github.com/vandstande/qgis-plugins/issues
+icon=icon.png
+experimental=False
+deprecated=False

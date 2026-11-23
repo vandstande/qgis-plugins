@@ -41,6 +41,10 @@ homepage = "https://www.vandstande.dk/anlaeg"
 navn     = "Naturvurdering"
 homepage = "https://www.vandstande.dk/naturvurdering"
 
+[grupper.effekter]
+navn     = "Effekter"
+homepage = "https://www.vandstande.dk/effekter"
+
 # Plugin-mappe (under plugins/)  =  gruppe
 # Mappenavnet skal være det samme som pluginets Python-mappenavn.
 [plugins]
@@ -55,3 +59,7 @@ GravSkrab = "anlaeg"
 grav_groefter = "anlaeg"
 fyld_groefter = "anlaeg"
 vurder_natur = "naturvurdering"
+screening_projektgraense = "effekter"
+co2_beregning = "effekter"
+fosfor_beregning = "effekter"
+erstatningsberegning = "effekter"

@@ -1,0 +1,25 @@
+[general]
+name=CO2-beregning
+qgisMinimumVersion=3.22
+qgisMaximumVersion=4.99
+supportsQt6=True
+description=Beregner arealer pr. tørveklasse og drifttype inden for og uden for en buffer om afvandende afværgeforanstaltninger (CO2-effekt af vådområdeprojekter).
+about=Plugin-udgave af Processing-modellen "CO2_beregning_07_05_26".
+    Markkort, CO2-kort (Tekstur14/Kulstof22) og en buffer om afværgeforanstaltninger klippes til projektgrænsen.
+    For hver tørveklasse beregnes arealet (ha) af Omdrift, PermGræs, Natur og ØvrigeIMK – dels uden for bufferen, dels inden for bufferen.
+    Resultatet kan gemmes direkte som .xlsx, og plugin'et kan udfylde Miljøstyrelsens "Beregningsark CO2-effekt" og åbne det. Algoritmen ligger i Processing-værktøjskassen under "Effekter" og i menuen Effektberegning.
+version=1.2.1
+author=Jan Pedersen
+email=jan@vandstande.dk
+changelog=1.2.1 – Restarealet beregnes i E51 (=D5-SUM(E27:E50)); E53 er igen arkets eget arealtjek.
+    1.1.0 – Udfylder Miljøstyrelsens "Beregningsark CO2-effekt" (valgfri skabelon) og åbner det bagefter.
+    1.0.0 – Første version, konverteret fra Processing-modellen CO2_beregning_07_05_26.
+tags=co2,tørv,vådområde,effekt,areal,drifttype,markkort
+homepage=https://vandstande.dk
+repository=https://github.com/vandstande/qgis-plugins
+tracker=https://github.com/vandstande/qgis-plugins/issues
+category=Analysis
+icon=icon.png
+experimental=True
+deprecated=False
+hasProcessingProvider=yes

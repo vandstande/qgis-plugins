@@ -1,0 +1,23 @@
+[general]
+name=Erstatningsberegning
+qgisMinimumVersion=3.22
+qgisMaximumVersion=4.99
+supportsQt6=True
+description=Beregner arealer pr. lodsejer med erstatningssats Høj, Mellem, Konflikt og Ingen inden for projektgrænsen.
+about=Plugin-udgave af Processing-modellen "Erstatningsberegning_07_05_26".
+    Erstatningskortet klippes til projektgrænsen, og ejerlaget samles pr. lodsejer (navn).
+    For hver lodsejer beregnes arealet (m² og ha) med sats Høj, Mellem, Konflikt og Ingen samt Høj + Konflikt.
+    Resultatet kan gemmes som .xlsx og åbnes direkte. Ligger i menuen Effektberegning.
+version=1.0.0
+author=Jan Pedersen
+email=jan@vandstande.dk
+changelog=1.0.0 – Første version, konverteret fra Processing-modellen Erstatningsberegning_07_05_26.
+tags=erstatning,lodsejer,vådområde,effekt,areal,sats
+homepage=https://vandstande.dk
+repository=https://github.com/vandstande/qgis-plugins
+tracker=https://github.com/vandstande/qgis-plugins/issues
+category=Analysis
+icon=icon.png
+experimental=True
+deprecated=False
+hasProcessingProvider=yes
