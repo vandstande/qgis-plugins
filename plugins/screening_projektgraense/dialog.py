@@ -71,7 +71,7 @@ class ProjektgraenseDialog(QDialog):
         f = QFormLayout(g_a)
         self.sp_spacing = _spin(5.0, 0.5, 200.0, 1, " m", 1.0)
         self.sp_maxdist = _spin(300.0, 10.0, 5000.0, 0, " m", 50.0)
-        self.sp_upmax = _spin(100.0, 0.0, 5000.0, 0, " m", 10.0)
+        self.sp_upmax = _spin(500.0, 0.0, 5000.0, 0, " m", 10.0)
         self.sp_res = _spin(1.0, 0.1, 50.0, 2, " m", 0.5)
         self.sp_smooth = _spin(25.0, 0.0, 1000.0, 0, " m", 5.0)
         self.chk_mono = QCheckBox("Grænsekoten må ikke stige nedstrøms")
@@ -133,7 +133,12 @@ class ProjektgraenseDialog(QDialog):
 
     def _load_settings(self):
         s = QSettings()
+        # Standarden opstrøms er hævet fra 100 til 500 m. En gammel, gemt
+        # værdi bruges derfor ikke, før dialogen er gemt med den nye standard.
+        ny_opstroems = str(s.value(SETTINGS + "upstream_max_v500", "")).lower() in ("true", "1")
         for k, w in self._widgets().items():
+            if k == "upstream_max" and not ny_opstroems:
+                continue
             v = s.value(SETTINGS + k)
             if v is not None:
                 try:
@@ -154,6 +159,7 @@ class ProjektgraenseDialog(QDialog):
         s.setValue(SETTINGS + "ditch_correct", self.chk_dcorr.isChecked())
         s.setValue(SETTINGS + "monotone", self.chk_mono.isChecked())
         s.setValue(SETTINGS + "ctrl", self.chk_ctrl.isChecked())
+        s.setValue(SETTINGS + "upstream_max_v500", True)
 
     def _log(self, txt):
         self.log.appendPlainText(txt)

@@ -19,7 +19,7 @@ Princip
   med linjen.
 * Opstrøms lukkes grænsen med en vifte af stråler bagud fra linjens
   startpunkt, med grænsekoten ved start. Viften må højst gå en given
-  afstand (standard 100 m) bagud. Nås grænsekoten ikke inden for den
+  afstand (standard 500 m) bagud. Nås grænsekoten ikke inden for den
   afstand, beregnes grænsen ikke opstrøms - den lukkes i stedet vinkelret
   gennem startpunktet, og der gives en advarsel.
 * Nedstrøms lukkes grænsen vinkelret på linjen gennem slutpunktet.
@@ -125,7 +125,7 @@ def cast_ray(grid, x0, y0, dx, dy, level, maxdist, step, ditch_offset=0.0):
 def compute(coords, grid, depth=1.5, spacing=5.0, maxdist=300.0, step=None,
             smooth_window=25.0, tangent_window=20.0, monotone=False,
             ditch_dist=3.0, ditch_tol=0.3, ditch_correct=True,
-            fan_step_deg=10.0, upstream_max=100.0):
+            fan_step_deg=10.0, upstream_max=500.0):
     """Beregn projektgrænse for én linje.
 
     coords: liste af (x, y) i strømretningen, i terrænmodellens CRS.
@@ -226,8 +226,10 @@ def compute(coords, grid, depth=1.5, spacing=5.0, maxdist=300.0, step=None,
                         % (maxdist, n_max))
 
     # --- vifte opstrøms ---------------------------------------------------
-    # Strålen i vinklen th har den bagudrettede komposant d*sin(th); den
-    # begrænses, så ingen stråle går mere end upstream_max bag startpunktet.
+    # Strålen i vinklen th har den bagudrettede komposant d*sin(th) og den
+    # sidelæns komposant d*|cos(th)|. De begrænses hver for sig: bagud af
+    # upstream_max og til siden af maxdist, så strålerne lige bagud kan nå
+    # hele upstream_max, også når den er større end maxdist.
     fan = []
     fan_ok = True
     nsteps = max(2, int(round(180.0 / fan_step_deg)))
@@ -236,12 +238,13 @@ def compute(coords, grid, depth=1.5, spacing=5.0, maxdist=300.0, step=None,
         sin_th = math.sin(th)
         dx = math.cos(th) * nx[0] - sin_th * tx[0]
         dy = math.cos(th) * ny[0] - sin_th * ty[0]
-        cap = maxdist
-        if sin_th > 1e-6:
-            cap = min(maxdist, upstream_max / sin_th)
+        cos_abs = abs(math.cos(th))
+        cap_side = maxdist / cos_abs if cos_abs > 1e-6 else float("inf")
+        cap_up = upstream_max / sin_th if sin_th > 1e-6 else float("inf")
+        cap = min(cap_side, cap_up)
         d, st = cast_ray(grid, x[0], y[0], dx, dy, level[0], cap, step,
                          ditch_dist if ditch_correct else 0.0)
-        if st == STATUS_MAX and cap < maxdist:
+        if st == STATUS_MAX and cap_up < cap_side:
             st = STATUS_OPSTROEMS
             fan_ok = False
         fan.append((x[0] + d * dx, y[0] + d * dy, d, st))
